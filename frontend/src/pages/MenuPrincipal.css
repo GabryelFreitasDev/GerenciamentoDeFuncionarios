@@ -1,0 +1,10 @@
+.App-header{
+  display: flex;
+  flex-direction: row;
+  background-color: green;
+}
+
+.App-header p{
+  align-content: center;
+  color: white;
+}
