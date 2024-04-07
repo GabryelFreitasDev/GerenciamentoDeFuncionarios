@@ -19,3 +19,87 @@ model Usuario {
 
   @@map("usuario")
 }
+
+model Departamento{
+  iddepartamento String @id @default(uuid())
+  descricao String @db.VarChar(200)
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+  Funcionarios Funcionario[]
+  Cargo Cargo[]
+
+  @@map("departamento")
+}
+
+model Cargo{
+  idcargo String @id @default(uuid())
+  nome String @db.VarChar(200)
+  salariobase Decimal @db.Decimal(18,5)
+  iddepartamento String
+
+  departamento Departamento @relation(fields: [iddepartamento], references: [iddepartamento])
+  funcionarios Funcionario[]
+  @@map("cargo")
+}
+
+model Funcionario{
+  idfuncionario String @id @default(uuid())
+  codigo Int
+  nome String @db.VarChar(200)
+  iddepartamento String
+  idcargo String
+  // salariobruto Decimal @db.Decimal(18,5)
+  // salarioliquido Decimal @db.Decimal(18,5)
+  departamento Departamento @relation(fields: [iddepartamento], references: [iddepartamento])
+  cargo Cargo @relation(fields: [idcargo], references: [idcargo])
+
+  @@map("funcionario")
+}
+
+model Beneficios{
+  idbeneficio String @id @default(uuid())
+  valetransporte Decimal? @db.Decimal(18,5)
+  valealimentacao Decimal? @db.Decimal(18,5)
+  salariofamilia Decimal? @db.Decimal(18,5)
+  auxiliocreche Decimal? @db.Decimal(18,5)
+  diariasparaviagens Decimal? @db.Decimal(18,5)
+  descansoremunerado Decimal? @db.Decimal(18,5)
+}
+
+model Adicionais{
+  idadicional String @id @default(uuid())
+  periculosidade Decimal? @db.Decimal(18,5)
+  noturno Decimal? @db.Decimal(18,5)
+  insalubridade Decimal? @db.Decimal(18,5)
+  tempodeservico Decimal? @db.Decimal(18,5)
+  valorhorasextras Decimal? @db.Decimal(18,5)
+}
+
+model Horas{
+  idhora String @id @default(uuid())
+  horastrabalhadas DateTime? @db.Time()
+  horasausentes Decimal?
+  horasextras Decimal? @db.Decimal(18,5)
+}
+
+// model Descontos{
+//   id
+// }
+
+// model DescontosSindicais{
+
+// }
+
+// model DescontosVulneraveis{
+    
+//     valoratrasos
+
+// }
+
+model FolhaPagamento{
+  idfolhapagamento String @id @default(uuid())
+  idbeneficio String
+}
+
+
+
