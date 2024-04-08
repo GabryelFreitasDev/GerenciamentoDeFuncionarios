@@ -9,7 +9,8 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export function Button({ loading, children, ...rest }: ButtonProps) {
     return (
-        <button 
+        <button
+        type={rest.type ? rest.type : 'submit'}
         className={styles.button} 
         disabled={loading} 
         {...rest}>

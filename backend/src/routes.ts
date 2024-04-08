@@ -8,7 +8,7 @@ const router = Router();
 
 //Rotas -usuario-
 //get
-router.get('/GetUsuario', new CadastrarUsuarioController().handle);
+router.get('/GetUsuario', new DetalhesUsuarioController().handle);
 
 //post
 router.post('/CadastrarUsuario', new CadastrarUsuarioController().handle);

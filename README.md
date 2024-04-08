@@ -4,6 +4,8 @@ DATABASE_URL="postgresql://postgres:123@localhost:5432/gerenciamento?schema=publ
 
 COMANDOS:
 
+npm run dev (pra rodar em ambos)
+
 *BACKEND*
 
 npm add express-async-errors
@@ -31,6 +33,6 @@ npm add sass
 
 npm add react-icons
 
-npm run dev (pra rodar)
-
 npm add axios nookies
+
+npm add react-toastify

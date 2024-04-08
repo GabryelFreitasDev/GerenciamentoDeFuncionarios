@@ -1,15 +1,13 @@
-import { Metadata } from 'next'
 import styles from "../styles/page.module.scss";
-import { Input } from '@/components/Input/input';
-import { Button } from '@/components/Button/button';
+import { Input } from '@/components/ui/Input/input';
+import { Button } from '@/components/ui/Button/button';
 import Link from 'next/link';
 
 import { useContext, FormEvent, useState } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
-
-export const metadata: Metadata = {
-  title: "Login"
-};
+import { toast } from 'react-toastify';
+import { canSSRGuest } from '@/utils/canSSRGuest';
+import Head from "next/head";
 
 export default function Login() {
   const { signIn } = useContext(AuthContext);
@@ -24,7 +22,7 @@ export default function Login() {
       event.preventDefault();
 
       if (!login || !senha) {
-        alert("Preencha os dados!");
+        toast.info("Preencha todos os campos!");
         return;
       }
 
@@ -36,13 +34,16 @@ export default function Login() {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      alert("Erro ao tentar realizar o login!");
+      toast.error("Erro ao tentar realizar o login!");
       console.log(error);
     }
   }
 
   return (
     <>
+      <Head>
+        <title>Menu</title>
+      </Head>
       <div className={styles.containerCenter}>
 
         <h1>Gerenciamento de Funcionários</h1>
@@ -59,3 +60,9 @@ export default function Login() {
     </>
   );
 }
+
+export const getServerSideProps = canSSRGuest(async (context) => {
+  return {
+    props: {}
+  }
+}) 

@@ -1,10 +1,12 @@
 import { Metadata } from 'next'
 import { FormEvent, useState, useContext } from 'react';
-import styles from "../../styles/page.module.scss";
-import { Input } from '@/components/Input/input';
-import { Button } from '@/components/Button/button';
+import styles from "./cadastro.module.scss";
+import { Input } from '@/components/ui/Input/input';
+import { Button } from '@/components/ui/Button/button';
 import Link from 'next/link';
 import { AuthContext } from '@/contexts/AuthContext';
+import { toast } from 'react-toastify';
+import Head from 'next/head';
 
 export const metadata: Metadata = {
   title: "Cadastro"
@@ -24,29 +26,32 @@ export default function Cadastro() {
     try {
       event.preventDefault();
 
-      if(!nome || !email || !login || !senha){
-        alert("Preencha os campos faltantes!")
+      if (!nome || !email || !login || !senha) {
+        toast.info("Preencha todos os campos!")
         return;
       }
-      
-      const data = {nome: nome, email: email, login: login, senha: senha}
+
+      const data = { nome: nome, email: email, login: login, senha: senha }
 
       setLoading(true);
 
       await signUp(data);
 
       setLoading(false);
-      
+
     } catch (error) {
       setLoading(false);
       console.log(error);
     }
-    
+
   }
 
 
   return (
     <>
+      <Head>
+        <title>Menu</title>
+      </Head>
       <div className={styles.containerCenter}>
 
         <h1>Cadastre-se</h1>

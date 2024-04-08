@@ -1,6 +1,10 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useState, useEffect } from "react";
 import Router from "next/router";
 import { api } from "@/services/apiClient";
+import { toast } from "react-toastify";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
+import { request } from "http";
+
 
 type AuthContextData = {
     user: UserProps | undefined;
@@ -35,6 +39,7 @@ type AuthProviderProps = {
 
 export function signOut() {
     try {
+        destroyCookie(undefined, '@nextauth.token')
         Router.push('/')
     } catch (error) {
         console.log("Erro ao deslogar: " + error)
@@ -47,37 +52,57 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const [user, setUser] = useState<UserProps>();
     const isAuthenticated = !!user;
 
+    useEffect(() => {
+        if (user?.id) {
+            api.get('/GetUsuario', { params: { idusuario: user?.id }}).then((response) => {
+                const { id, nome, email, login } = response.data;
+
+                setUser({ id, nome, email, login });
+            }).catch(() => {
+                signOut();
+            })
+        }
+
+    }, [])
+
     async function signIn({ login, senha }: SignInProps) {
         try {
             const response = await api.post('/AutenticarUsuario', { login: login, senha: senha })
 
-            const {id, nome, email} = response.data;
+            const { id, nome, email } = response.data;
+
+            setCookie(undefined, '@nextauth.token', id, {
+                maxAge: 60 * 60 * 24 * 30,
+                path: "/"
+            })
 
             setUser({ id, nome, email, login });
 
             Router.push('/menu');
+            toast.success(`Bem vindo, ${nome}!`, { pauseOnHover: false});
 
         } catch (error) {
             console.log(error);
-            alert('Usuario ou senha incorretos!');
+            toast.error('Usuário ou senha incorretos!');
         }
     }
 
-    async function signUp({ nome, email, login, senha}: SignUpProps){
+    async function signUp({ nome, email, login, senha }: SignUpProps) {
         try {
-            const response = await api.post('/CadastrarUsuario', { 
+            const response = await api.post('/CadastrarUsuario', {
                 nome,
                 email,
                 login,
-                senha })
+                senha
+            })
 
-            alert("Usuário cadastrado com sucesso!");
+            toast.success('Usuário cadastrado com sucesso!');
 
             Router.push('/');
 
         } catch (error) {
             console.log(error);
-            alert('Usuario ou senha incorretos!');
+            toast.error('Erro ao cadastrar usuário!');
         }
     }
 
