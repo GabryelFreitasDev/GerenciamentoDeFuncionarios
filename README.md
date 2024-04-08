@@ -32,3 +32,5 @@ npm add sass
 npm add react-icons
 
 npm run dev (pra rodar)
+
+npm add axios nookies

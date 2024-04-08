@@ -4,7 +4,7 @@ import { Input } from '@/components/Input/input';
 import { Button } from '@/components/Button/button';
 import Link from 'next/link';
 
-import { useContext, FormEvent } from 'react';
+import { useContext, FormEvent, useState } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
 
 export const metadata: Metadata = {
@@ -12,17 +12,33 @@ export const metadata: Metadata = {
 };
 
 export default function Login() {
-  const { login } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
+
+  const [login, setLogin] = useState('');
+  const [senha, setSenha] = useState('');
+
+  const [loading, setLoading] = useState(false);
 
   async function handleLogin(event: FormEvent) {
-    event.preventDefault();
+    try {
+      event.preventDefault();
 
-    let data = {
-      login: "teste",
-      senha: "123"
+      if (!login || !senha) {
+        alert("Preencha os dados!");
+        return;
+      }
+
+      setLoading(true);
+
+      let data = { login, senha };
+      await signIn(data);
+
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      alert("Erro ao tentar realizar o login!");
+      console.log(error);
     }
-
-    await login(data);
   }
 
   return (
@@ -33,9 +49,9 @@ export default function Login() {
 
         <div className={styles.login}>
           <form onSubmit={handleLogin}>
-            <Input placeholder='Login' type='text' />
-            <Input placeholder='Senha' type='password' />
-            <Button type="submit" >Acessar</Button>
+            <Input placeholder='Login' type='text' value={login} onChange={(e) => setLogin(e.target.value)} />
+            <Input placeholder='Senha' type='password' value={senha} onChange={(e) => setSenha(e.target.value)} />
+            <Button type="submit" loading={loading}>Acessar</Button>
           </form>
         </div>
         <Link className={styles.link} href="/cadastro">Não possui uma conta? Cadastre-se</Link>
