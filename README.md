@@ -27,7 +27,7 @@ npm add bcryptjs
 npm add @types/bcryptjs 
 
 
-npm prisma migrate dev (gerar migrations)
+npx prisma migrate dev (gerar migrations)
 
 *FRONTEND*
 
