@@ -22,10 +22,11 @@ npm add @prisma/client
 
 npx prisma init
 
+npx prisma generate
+
 npm add bcryptjs 
 
 npm add @types/bcryptjs 
-
 
 npx prisma migrate dev (gerar migrations)
 
