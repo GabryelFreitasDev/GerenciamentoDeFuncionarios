@@ -2,6 +2,8 @@ Criar um arquivo .env na pasta backend e colar o seguinte codigo:
 
 DATABASE_URL="postgresql://postgres:123@localhost:5432/gerenciamento?schema=public"
 
+Existe um exemplo dentro do BackEnd, onde só precisa mudar o nome para '.env' e remover o # antes do código acima
+
 COMANDOS:
 
 npm run dev (pra rodar em ambos)
