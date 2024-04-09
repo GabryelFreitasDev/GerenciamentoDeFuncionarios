@@ -6,9 +6,10 @@ export function canSSRGuest<P extends { [key: string]: any; }>(fn: GetServerSide
   return async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<P>> => {
 
     const cookies = parseCookies(context);
+    const token = cookies['@nextauth.token'];
 
     // Se o cara tentar acessar a pagina porem tendo já um login salvo redirecionamos
-    if (cookies['@nextauth.token']) {
+    if (token && token !== 'undefined') {
       return {
         redirect: {
           destination: '/menu',

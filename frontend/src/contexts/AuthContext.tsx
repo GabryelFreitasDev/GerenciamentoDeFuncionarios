@@ -15,7 +15,7 @@ type AuthContextData = {
 }
 
 type UserProps = {
-    id: string;
+    idusuario: string;
     nome: string;
     email: string;
     login: string;
@@ -53,11 +53,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const isAuthenticated = !!user;
 
     useEffect(() => {
-        if (user?.id) {
-            api.get('/GetUsuario', { params: { idusuario: user?.id }}).then((response) => {
-                const { id, nome, email, login } = response.data;
+        if (user?.idusuario) {
+            api.get('/GetUsuario', { params: { idusuario: user?.idusuario }}).then((response) => {
+                const { idusuario, nome, email, login } = response.data;
 
-                setUser({ id, nome, email, login });
+                setUser({ idusuario, nome, email, login });
             }).catch(() => {
                 signOut();
             })
@@ -69,17 +69,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
         try {
             const response = await api.post('/AutenticarUsuario', { login: login, senha: senha })
 
-            const { id, nome, email } = response.data;
+            const { idusuario, nome, email } = response.data;
 
-            setCookie(undefined, '@nextauth.token', id, {
+            setCookie(undefined, '@nextauth.token', idusuario, {
                 maxAge: 60 * 60 * 24 * 30,
                 path: "/"
             })
 
-            setUser({ id, nome, email, login });
+            setUser({ idusuario, nome, email, login });
 
             Router.push('/menu');
-            toast.success(`Bem vindo, ${nome}!`, { pauseOnHover: false});
+            toast.success(`Bem vindo ${nome}, como posso te ajudar hoje?`, { pauseOnHover: false});
 
         } catch (error) {
             console.log(error);

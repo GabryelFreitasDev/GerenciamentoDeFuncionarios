@@ -9,7 +9,7 @@ export function canSSRAuth<P extends { [key: string]: any; }>(fn: GetServerSideP
 
         const token = cookies['@nextauth.token'];
 
-        if (!token) {
+        if (!token || token === 'undefined') {
             return {
                 redirect: {
                     destination: '/',

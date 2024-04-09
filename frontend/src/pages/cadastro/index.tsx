@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { AuthContext } from '@/contexts/AuthContext';
 import { toast } from 'react-toastify';
 import Head from 'next/head';
+import { canSSRGuest } from '@/utils/canSSRGuest';
 
 export const metadata: Metadata = {
   title: "Cadastro"
@@ -71,3 +72,9 @@ export default function Cadastro() {
     </>
   );
 }
+
+export const getServerSideProps = canSSRGuest(async (context) => {
+  return {
+    props: {}
+  }
+}) 
