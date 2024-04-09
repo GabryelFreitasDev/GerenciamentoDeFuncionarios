@@ -8,14 +8,32 @@ datasource db {
 }
 
 //criar migration: npx prisma migrate dev
+model Empresa {
+  idempresa String @id @default(uuid())
+  nome String @db.VarChar(200)
+  cnpj String @db.VarChar(14)
+  endereco String? @db.VarChar(200)
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  usuarios Usuario[]
+
+  @@map("empresa")
+}
+
 model Usuario {
   idusuario String @id @default(uuid())
   nome String @db.VarChar(200) 
-  login String  @db.VarChar(100) 
-  email String  @db.VarChar(200) 
-  senha String  @db.VarChar(100) 
+  login String @db.VarChar(100) 
+  email String? @db.VarChar(200) 
+  senha String @db.VarChar(100)
+  idempresa String
+  
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
+
+  empresa Empresa @relation(fields: [idempresa], references: [idempresa])
+  funcionarios Funcionario[]
 
   @@map("usuario")
 }
@@ -25,8 +43,9 @@ model Departamento{
   descricao String @db.VarChar(200)
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
-  Funcionarios Funcionario[]
-  Cargo Cargo[]
+
+  funcionarios Funcionario[]
+  cargos Cargo[]
 
   @@map("departamento")
 }
@@ -39,6 +58,7 @@ model Cargo{
 
   departamento Departamento @relation(fields: [iddepartamento], references: [iddepartamento])
   funcionarios Funcionario[]
+
   @@map("cargo")
 }
 
@@ -48,10 +68,15 @@ model Funcionario{
   nome String @db.VarChar(200)
   iddepartamento String
   idcargo String
-  // salariobruto Decimal @db.Decimal(18,5)
-  // salarioliquido Decimal @db.Decimal(18,5)
+  categoria Int 
+  dataadmissao DateTime
+  idusuariocadastro String
+
   departamento Departamento @relation(fields: [iddepartamento], references: [iddepartamento])
+  usuario Usuario @relation(fields: [idusuariocadastro], references: [idusuario])
   cargo Cargo @relation(fields: [idcargo], references: [idcargo])
+
+  folhapagamento FolhaPagamento[]
 
   @@map("funcionario")
 }
@@ -64,6 +89,12 @@ model Beneficios{
   auxiliocreche Decimal? @db.Decimal(18,5)
   diariasparaviagens Decimal? @db.Decimal(18,5)
   descansoremunerado Decimal? @db.Decimal(18,5)
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  folhapagamento FolhaPagamento[]
+
+  @@map("beneficios")
 }
 
 model Adicionais{
@@ -73,33 +104,60 @@ model Adicionais{
   insalubridade Decimal? @db.Decimal(18,5)
   tempodeservico Decimal? @db.Decimal(18,5)
   valorhorasextras Decimal? @db.Decimal(18,5)
+  adiantamento Decimal? @db.Decimal(18,5)
+  percentualcomissao Decimal? @db.Decimal(18,5)
+  comissao Decimal? @db.Decimal(18,5)
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  folhapagamento FolhaPagamento[]
+
+  @@map("adicionais")
 }
 
-model Horas{
-  idhora String @id @default(uuid())
+model HorasTrabalhadas{
+  idhorastrabalhadas String @id @default(uuid())
   horastrabalhadas DateTime? @db.Time()
-  horasausentes Decimal?
+  horasausentes Decimal? @db.Decimal(18,5)
   horasextras Decimal? @db.Decimal(18,5)
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  folhapagamento FolhaPagamento[]
+
+  @@map("horas")
 }
 
-// model Descontos{
-//   id
-// }
+model Descontos{
+  iddesconto String @id @default(uuid())
+  inss Decimal? @db.Decimal(18,5)
+  fgts Decimal? @db.Decimal(18,5)
+  irrf Decimal? @db.Decimal(18,5)
+  valorhorasausentes Decimal? @db.Decimal(18,5)
+  contribuicaosindical  Decimal? @db.Decimal(18,5)
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
 
-// model DescontosSindicais{
+  folhapagamento FolhaPagamento[]
 
-// }
-
-// model DescontosVulneraveis{
-    
-//     valoratrasos
-
-// }
+  @@map("descontos")
+}
 
 model FolhaPagamento{
   idfolhapagamento String @id @default(uuid())
-  idbeneficio String
+  idfuncionario String
+  idbeneficios String
+  idadicionais String
+  iddescontos String
+  idhorastrabalhadas String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  funcionario Funcionario @relation(fields: [idfuncionario], references: [idfuncionario])
+  beneficios Beneficios @relation(fields: [idbeneficios], references: [idbeneficio])
+  adicionais Adicionais @relation(fields: [idadicionais], references: [idadicional])
+  descontos Descontos @relation(fields: [iddescontos], references: [iddesconto])
+  horastrabalhadas HorasTrabalhadas @relation(fields: [idhorastrabalhadas], references: [idhorastrabalhadas])
+
+  @@map("folhapagamento")
 }
-
-
-
