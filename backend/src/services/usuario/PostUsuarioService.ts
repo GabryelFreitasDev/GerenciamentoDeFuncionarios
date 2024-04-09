@@ -1,21 +1,19 @@
 import prismaClient from '../../prisma/prismaclient'
 import { hash } from 'bcryptjs'
 
-interface UsuarioRequest{
+interface UsuarioRequest {
     nome: string,
     login: string,
     email: string,
     senha: string
+    idempresa: string
 }
 
-class CadastrarUsuarioService{
-    async execute({nome, login, email, senha}: UsuarioRequest){
-
-        if(!nome)
-            throw new Error("Nome não inserido!")
+class PostUsuarioService {
+    async execute({ nome, login, email, senha, idempresa }: UsuarioRequest) {
 
         const usuarioJaExite = await prismaClient.usuario.findFirst({ where: { login: login } })
-        if(usuarioJaExite)
+        if (usuarioJaExite)
             throw new Error("Usuario já existe!");
 
         const senhaCriptografada = await hash(senha, 8);
@@ -25,13 +23,16 @@ class CadastrarUsuarioService{
                 nome: nome,
                 login: login,
                 email: email,
-                senha: senhaCriptografada
+                senha: senhaCriptografada,
+                idempresa: idempresa
             },
             select: {
                 idusuario: true,
                 nome: true,
                 login: true,
                 email: true,
+                senha: true,
+                empresa: true
             }
         })
 
@@ -39,6 +40,4 @@ class CadastrarUsuarioService{
     }
 }
 
-//function validaUsuario(usuarioRequest: UsuarioRequest){}
-
-export { CadastrarUsuarioService };
+export { PostUsuarioService };

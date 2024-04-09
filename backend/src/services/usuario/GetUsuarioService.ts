@@ -1,6 +1,6 @@
 import prismaClient from "../../prisma/prismaclient";
 
-class DetalhesUsuarioService {
+class GetUsuarioService {
     async execute(idusuario: string) {
         const usuario = await prismaClient.usuario.findFirst(
             {
@@ -11,15 +11,16 @@ class DetalhesUsuarioService {
                     idusuario: true,
                     nome: true,
                     login: true,
-                    email: true
+                    email: true,
+                    idempresa: true
                 }
             });
 
         if (!usuario)
-            throw new Error("Usuário não encontrado");
+            throw new Error("Usuário não encontrado.");
 
         return usuario;
     }
 }
 
-export { DetalhesUsuarioService }
+export { GetUsuarioService }

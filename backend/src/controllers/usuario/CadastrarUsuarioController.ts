@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CadastrarUsuarioService } from '../../services/usuario/CadastrarUsuarioService'
+import { CadastrarUsuarioService } from '../../services/usuario/PostUsuarioService'
 
 class CadastrarUsuarioController {
     async handle(req: Request, res: Response) {
