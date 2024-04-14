@@ -1,23 +1,25 @@
 import prismaClient from "../../prisma/prismaclient";
 
-class GetDepartamentoService {
-    async execute(iddepartamento: string) {
-        const departamento = await prismaClient.departamento.findFirst(
+class GetCargoService {
+    async execute(idcargo: string) {
+        const cargo = await prismaClient.cargo.findFirst(
             {
                 where: {
-                    iddepartamento: iddepartamento
+                    idcargo: idcargo
                 },
                 select: {
-                    iddepartamento: true,
-                    descricao: true
+                    idcargo: true,
+                    nome: true,
+                    salariobase: true,
+                    iddepartamento: true
                 }
             });
 
-        if (!departamento)
-            throw new Error("Departamento não encontrado.");
+        if (!cargo)
+            throw new Error("Cargo não encontrado.");
 
-        return departamento;
+        return cargo;
     }
 }
 
-export { GetDepartamentoService }
+export { GetCargoService }

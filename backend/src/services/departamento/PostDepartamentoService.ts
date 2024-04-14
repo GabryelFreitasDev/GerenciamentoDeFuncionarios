@@ -5,7 +5,7 @@ interface DepartamentoRequest {
 }
 
 class PostDepartamentoService {
-    async execute({ descricao  }: DepartamentoRequest) {
+    async execute({ descricao }: DepartamentoRequest) {
 
         const departamentoJaExite = await prismaClient.departamento.findFirst({ where: { descricao: descricao } })
         if (departamentoJaExite)

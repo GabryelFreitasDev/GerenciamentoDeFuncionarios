@@ -71,6 +71,8 @@ model Funcionario{
   categoria Int 
   dataadmissao DateTime
   idusuariocadastro String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
 
   departamento Departamento @relation(fields: [iddepartamento], references: [iddepartamento])
   usuario Usuario @relation(fields: [idusuariocadastro], references: [idusuario])

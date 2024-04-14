@@ -1,17 +1,17 @@
 import { Router, Request, Response } from 'express'
-
-import { CadastrarUsuarioController } from './controllers/usuario/CadastrarUsuarioController'
+import { GetUsuarioController } from './controllers/usuario/GetUsuarioController';
 import { AutenticarUsuarioController } from './controllers/usuario/AutenticarUsuarioController';
-import { DetalhesUsuarioController } from './controllers/usuario/DetalhesUsuarioController';
+import { PostUsuarioController } from './controllers/usuario/PostUsuarioController';
 
 const router = Router();
 
-//Rotas -usuario-
+//usuario
+
 //get
-router.get('/GetUsuario', new DetalhesUsuarioController().handle);
+router.get('/GetUsuario', new GetUsuarioController().handle);
 
 //post
-router.post('/CadastrarUsuario', new CadastrarUsuarioController().handle);
+router.post('/CadastrarUsuario', new PostUsuarioController().handle);
 router.post('/AutenticarUsuario', new AutenticarUsuarioController().handle);
 
 export { router };

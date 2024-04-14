@@ -7,7 +7,7 @@ interface EmpresaRequest {
 }
 
 class PostEmpresaService {
-    async execute({ nome, cnpj, endereco  }: EmpresaRequest) {
+    async execute({ nome, cnpj, endereco }: EmpresaRequest) {
 
         const empresaJaExite = await prismaClient.empresa.findFirst({ where: { nome: nome } })
         if (empresaJaExite)

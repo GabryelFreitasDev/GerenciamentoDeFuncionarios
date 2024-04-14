@@ -7,7 +7,7 @@ interface CargoRequest {
 }
 
 class PostCargoService {
-    async execute({ nome, salariobase, iddepartamento  }: CargoRequest) {
+    async execute({ nome, salariobase, iddepartamento }: CargoRequest) {
 
         const cargoJaExite = await prismaClient.cargo.findFirst({ where: { nome: nome } })
         if (cargoJaExite)
