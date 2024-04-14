@@ -1,0 +1,3 @@
+interface DepartamentoDTO {
+    descricao: string;
+}

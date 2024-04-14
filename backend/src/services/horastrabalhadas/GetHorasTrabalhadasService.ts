@@ -1,6 +1,6 @@
 import prismaClient from "../../prisma/prismaclient";
 
-class GetHorasService {
+class GetHorasTrabalhadasService {
     async execute(idhorastrabalhadas: string) {
         const horasTrabalhadas = await prismaClient.horasTrabalhadas.findFirst(
             {
@@ -23,4 +23,4 @@ class GetHorasService {
     }
 }
 
-export { GetHorasService }
+export { GetHorasTrabalhadasService }

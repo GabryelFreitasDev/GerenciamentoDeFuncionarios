@@ -1,16 +1,9 @@
 import prismaClient from '../../prisma/prismaclient'
 
-interface BeneficiosRequest {
-    valetransporte: number,
-    valealimentacao: number,
-    salariofamilia: number,
-    auxiliocreche: number
-    diariasparaviagens: number,
-    descansoremunerado: number
-}
+
 
 class PostBeneficiosService {
-    async execute({ valetransporte, valealimentacao, salariofamilia, auxiliocreche, diariasparaviagens, descansoremunerado }: BeneficiosRequest) {
+    async execute({ valetransporte, valealimentacao, salariofamilia, auxiliocreche, diariasparaviagens, descansoremunerado }: BeneficiosDTO) {
 
         const beneficios = await prismaClient.beneficios.create({
             data: {

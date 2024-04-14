@@ -1,16 +1,8 @@
 import prismaClient from '../../prisma/prismaclient'
-import { compare, hash } from 'bcryptjs'
-
-interface UsuarioRequest {
-    nome: string,
-    login: string,
-    email: string,
-    senha: string
-    idempresa: string
-}
+import { hash } from 'bcryptjs'
 
 class PostUsuarioService {
-    async execute({ nome, login, email, senha, idempresa }: UsuarioRequest) {
+    async execute({ nome, login, email, senha, idempresa }: UsuarioDTO) {
 
         const usuarioJaExite = await prismaClient.usuario.findFirst({ where: { login: login } })
         if (usuarioJaExite)

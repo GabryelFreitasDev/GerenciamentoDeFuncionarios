@@ -1,11 +1,7 @@
 import prismaClient from '../../prisma/prismaclient'
 
-interface DepartamentoRequest {
-    descricao: string
-}
-
 class PostDepartamentoService {
-    async execute({ descricao }: DepartamentoRequest) {
+    async execute({ descricao }: DepartamentoDTO) {
 
         const departamentoJaExite = await prismaClient.departamento.findFirst({ where: { descricao: descricao } })
         if (departamentoJaExite)

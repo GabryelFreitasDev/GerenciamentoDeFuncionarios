@@ -1,17 +1,7 @@
 import prismaClient from '../../prisma/prismaclient'
 
-interface FuncionarioRequest {
-    codigo: number,
-    nome: string,
-    iddepartamento: string
-    idcargo: string,
-    categoria: number,
-    dataadmissao: Date,
-    idusuariocadastro: string,
-}
-
 class PostFuncionarioService {
-    async execute({ codigo, nome, iddepartamento, idcargo, categoria, dataadmissao, idusuariocadastro }: FuncionarioRequest) {
+    async execute({ codigo, nome, iddepartamento, idcargo, categoria, dataadmissao, idusuariocadastro }: FuncionarioDTO) {
 
         const funcionarioJaExite = await prismaClient.funcionario.findFirst({ where: { nome: nome } })
         if (funcionarioJaExite)

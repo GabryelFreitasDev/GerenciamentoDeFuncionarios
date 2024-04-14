@@ -1,15 +1,7 @@
 import prismaClient from '../../prisma/prismaclient'
 
-interface DescontosRequest {
-    inss: number,
-    fgts: number,
-    irrf: number,
-    valorhorasausentes: number,
-    contribuicaosindical: number
-}
-
 class PostDescontosService {
-    async execute({ inss, fgts, irrf, valorhorasausentes, contribuicaosindical }: DescontosRequest) {
+    async execute({ inss, fgts, irrf, valorhorasausentes, contribuicaosindical }: DescontosDTO) {
 
         const descontos = await prismaClient.descontos.create({
             data: {

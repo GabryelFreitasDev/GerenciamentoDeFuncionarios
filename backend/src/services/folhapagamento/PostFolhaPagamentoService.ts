@@ -1,15 +1,7 @@
 import prismaClient from '../../prisma/prismaclient'
 
-interface FolhaPagamentoRequest {
-    idfuncionario: string,
-    idbeneficios: string,
-    idadicionais: string,
-    iddescontos: string
-    idhorastrabalhadas: string
-}
-
 class PostFolhaPagamentoService {
-    async execute({ idfuncionario, idbeneficios, idadicionais, iddescontos, idhorastrabalhadas }: FolhaPagamentoRequest) {
+    async execute({ idfuncionario, idbeneficios, idadicionais, iddescontos, idhorastrabalhadas }: FolhaPagamentoDTO) {
 
         const folhapagamento = await prismaClient.folhaPagamento.create({
             data: {

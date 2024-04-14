@@ -1,17 +1,7 @@
 import prismaClient from '../../prisma/prismaclient'
 
-interface AdicionaisRequest {
-    periculosidade: number,
-    noturno: number,
-    insalubridade: number,
-    valorhorasextras: number
-    adiantamento: number,
-    percentualcomissao: number,
-    comissao: number,
-}
-
 class PostAdicionaisService {
-    async execute({ periculosidade, noturno, insalubridade, valorhorasextras, adiantamento, percentualcomissao, comissao }: AdicionaisRequest) {
+    async execute({ periculosidade, noturno, insalubridade, valorhorasextras, adiantamento, percentualcomissao, comissao }: AdicionaisDTO) {
 
         const adicionais = await prismaClient.adicionais.create({
             data: {

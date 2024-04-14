@@ -1,13 +1,7 @@
 import prismaClient from '../../prisma/prismaclient'
 
-interface EmpresaRequest {
-    nome: string,
-    cnpj: string,
-    endereco: string
-}
-
 class PostEmpresaService {
-    async execute({ nome, cnpj, endereco }: EmpresaRequest) {
+    async execute({ nome, cnpj, endereco }: EmpresaDTO) {
 
         const empresaJaExite = await prismaClient.empresa.findFirst({ where: { nome: nome } })
         if (empresaJaExite)
