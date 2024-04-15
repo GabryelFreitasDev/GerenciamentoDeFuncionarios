@@ -2,9 +2,7 @@ import { createContext, ReactNode, useState, useEffect } from "react";
 import Router from "next/router";
 import { api } from "@/services/apiClient";
 import { toast } from "react-toastify";
-import { destroyCookie, parseCookies, setCookie } from "nookies";
-import { request } from "http";
-
+import { destroyCookie, setCookie } from "nookies";
 
 type AuthContextData = {
     user: UserProps | undefined;
@@ -31,6 +29,7 @@ type SignUpProps = {
     email: string;
     login: string;
     senha: string;
+    idempresa: string;
 }
 
 type AuthProviderProps = {
@@ -54,7 +53,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     useEffect(() => {
         if (user?.idusuario) {
-            api.get('/GetUsuario', { params: { idusuario: user?.idusuario }}).then((response) => {
+            api.get('/Usuario', { params: { idusuario: user?.idusuario } }).then((response) => {
                 const { idusuario, nome, email, login } = response.data;
 
                 setUser({ idusuario, nome, email, login });
@@ -67,7 +66,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     async function signIn({ login, senha }: SignInProps) {
         try {
-            const response = await api.post('/AutenticarUsuario', { login: login, senha: senha })
+            const response = await api.post('/Usuario/AutenticarUsuario', { login: login, senha: senha })
 
             const { idusuario, nome, email } = response.data;
 
@@ -79,7 +78,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             setUser({ idusuario, nome, email, login });
 
             Router.push('/menu');
-            toast.success(`Bem vindo ${nome}, como posso te ajudar hoje?`, { pauseOnHover: false});
+            toast.success(`Bem vindo ${nome}, como posso te ajudar hoje?`, { pauseOnHover: false });
 
         } catch (error) {
             console.log(error);
@@ -87,13 +86,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
         }
     }
 
-    async function signUp({ nome, email, login, senha }: SignUpProps) {
+    async function signUp({ nome, email, login, senha, idempresa }: SignUpProps) {
         try {
-            const response = await api.post('/CadastrarUsuario', {
+            const response = await api.post('/Usuario', {
                 nome,
                 email,
                 login,
-                senha
+                senha,
+                idempresa: 'id_da_empresa'
             })
 
             toast.success('Usuário cadastrado com sucesso!');

@@ -7,3 +7,5 @@ interface AdicionaisDTO {
     percentualcomissao: number,
     comissao: number,
 }
+
+export { AdicionaisDTO }

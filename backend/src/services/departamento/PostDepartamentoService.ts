@@ -1,3 +1,4 @@
+import { DepartamentoDTO } from '../../dtos/DepartamentoDTO';
 import prismaClient from '../../prisma/prismaclient'
 
 class PostDepartamentoService {

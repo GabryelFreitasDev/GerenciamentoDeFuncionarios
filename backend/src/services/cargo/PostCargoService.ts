@@ -1,3 +1,4 @@
+import { CargoDTO } from '../../dtos/CargoDTO';
 import prismaClient from '../../prisma/prismaclient'
 
 class PostCargoService {

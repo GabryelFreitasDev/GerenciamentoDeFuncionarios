@@ -1,3 +1,4 @@
+import { FolhaPagamentoDTO } from '../../dtos/FolhaPagamentoDTO';
 import prismaClient from '../../prisma/prismaclient'
 
 class PostFolhaPagamentoService {

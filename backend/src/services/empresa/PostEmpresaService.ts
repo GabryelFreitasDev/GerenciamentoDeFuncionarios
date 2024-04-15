@@ -1,3 +1,4 @@
+import { EmpresaDTO } from '../../dtos/EmpresaDTO';
 import prismaClient from '../../prisma/prismaclient'
 
 class PostEmpresaService {

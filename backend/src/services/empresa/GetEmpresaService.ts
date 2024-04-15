@@ -6,12 +6,6 @@ class GetEmpresaService {
             {
                 where: {
                     idempresa: idempresa
-                },
-                select: {
-                    idempresa: true,
-                    nome: true,
-                    cnpj: true,
-                    endereco: true
                 }
             });
 

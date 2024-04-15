@@ -3,3 +3,5 @@ interface CargoDTO {
     salariobase: number,
     iddepartamento: string
 }
+
+export { CargoDTO }

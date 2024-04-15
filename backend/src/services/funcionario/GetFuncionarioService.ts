@@ -1,7 +1,7 @@
 import prismaClient from "../../prisma/prismaclient";
 
-class GetFuncionarioService {
-    async execute(idfuncionario: string) {
+export class GetFuncionarioService {
+    async Get(idfuncionario: string) {
         const funcionario = await prismaClient.funcionario.findFirst(
             {
                 where: {
@@ -9,9 +9,9 @@ class GetFuncionarioService {
                 },
                 select: {
                     idfuncionario: true,
-                    codigo: true,
+                    //codigo: true,
                     nome: true,
-                    iddepartamento: true,
+                    //iddepartamento: true,
                     idcargo: true,
                     categoria: true,
                     dataadmissao: true,
@@ -24,6 +24,25 @@ class GetFuncionarioService {
 
         return funcionario;
     }
-}
 
-export { GetFuncionarioService }
+    async GetAll() {
+        const funcionario = await prismaClient.funcionario.findMany(
+            {
+                select: {
+                    idfuncionario: true,
+                    //codigo: true,
+                    nome: true,
+                    //iddepartamento: true,
+                    idcargo: true,
+                    categoria: true,
+                    dataadmissao: true,
+                    idusuariocadastro: true
+                }
+            });
+
+        if (!funcionario)
+            throw new Error("Funcionarios não encontrados.");
+
+        return funcionario;
+    }
+}

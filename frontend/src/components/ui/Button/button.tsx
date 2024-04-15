@@ -11,7 +11,7 @@ export function Button({ loading, children, ...rest }: ButtonProps) {
     return (
         <button
         type={rest.type ? rest.type : 'submit'}
-        className={styles.button} 
+        className={styles.button}
         disabled={loading} 
         {...rest}>
             {loading 

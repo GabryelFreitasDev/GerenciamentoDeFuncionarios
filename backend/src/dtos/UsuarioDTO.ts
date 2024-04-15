@@ -5,3 +5,5 @@ interface UsuarioDTO {
     senha: string
     idempresa: string
 }
+
+export { UsuarioDTO }

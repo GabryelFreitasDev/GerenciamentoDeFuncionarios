@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { PostFolhaPagamentoService } from '../../services/folhapagamento/PostFolhaPagamentoService'
+import { FolhaPagamentoDTO } from "../../dtos/FolhaPagamentoDTO";
 
 class PostFolhaPagamentoController {
     async handle(req: Request, res: Response) {

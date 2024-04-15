@@ -6,3 +6,5 @@ interface BeneficiosDTO {
     diariasparaviagens: number,
     descansoremunerado: number
 }
+
+export { BeneficiosDTO }

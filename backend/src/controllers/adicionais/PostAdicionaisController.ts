@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { PostAdicionaisService } from '../../services/adicionais/PostAdicionaisService'
+import { AdicionaisDTO } from "../../dtos/AdicionaisDTO";
 
 class PostAdicionaisController {
     async handle(req: Request, res: Response) {

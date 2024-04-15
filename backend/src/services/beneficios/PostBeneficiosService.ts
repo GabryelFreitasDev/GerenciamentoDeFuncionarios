@@ -1,3 +1,4 @@
+import { BeneficiosDTO } from '../../dtos/BeneficiosDTO';
 import prismaClient from '../../prisma/prismaclient'
 
 

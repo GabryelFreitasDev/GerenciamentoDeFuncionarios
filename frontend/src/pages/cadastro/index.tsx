@@ -31,8 +31,7 @@ export default function Cadastro() {
         toast.info("Preencha todos os campos!")
         return;
       }
-
-      const data = { nome: nome, email: email, login: login, senha: senha }
+      const data = { nome: nome, email: email, login: login, senha: senha, idempresa: 'id_da_empresa'}
 
       setLoading(true);
 
@@ -46,7 +45,6 @@ export default function Cadastro() {
     }
 
   }
-
 
   return (
     <>

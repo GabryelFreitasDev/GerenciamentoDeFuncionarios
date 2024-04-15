@@ -40,14 +40,17 @@ router.get('/Departamento', new GetDepartamentoController().handle);
 router.post('/Departamento', new PostDepartamentoController().handle);
 
 //get
-router.get('/Cargo', new GetCargoController().handle);
+router.get('/Cargo', new GetCargoController().Get);
+router.get('/Cargos', new GetCargoController().GetAll);
 //post
 router.post('/Cargo', new PostCargoController().handle);
 
 //get
-router.get('/Funcionario', new GetFuncionarioController().handle);
+router.get('/Funcionario', new GetFuncionarioController().Get);
+router.get('/Funcionarios', new GetFuncionarioController().GetAll);
 //post
-router.post('/Funcionario', new PostFuncionarioController().handle);
+router.post('/Funcionario', new PostFuncionarioController().Post);
+router.put('/Funcionario', new PostFuncionarioController().Put);
 
 //get
 router.get('/Beneficios', new GetBeneficiosController().handle);

@@ -3,3 +3,5 @@ interface HorasTrabalhadasDTO {
     horasausentes: number,
     horasextras: number,
 }
+
+export { HorasTrabalhadasDTO }

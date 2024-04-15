@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { PostBeneficiosService } from '../../services/beneficios/PostBeneficiosService'
+import { BeneficiosDTO } from "../../dtos/BeneficiosDTO";
 
 class PostBeneficiosController {
     async handle(req: Request, res: Response) {

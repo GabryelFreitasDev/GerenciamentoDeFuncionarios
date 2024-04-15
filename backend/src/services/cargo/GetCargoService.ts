@@ -1,7 +1,7 @@
 import prismaClient from "../../prisma/prismaclient";
 
 class GetCargoService {
-    async execute(idcargo: string) {
+    async Get(idcargo: string) {
         const cargo = await prismaClient.cargo.findFirst(
             {
                 where: {
@@ -17,6 +17,23 @@ class GetCargoService {
 
         if (!cargo)
             throw new Error("Cargo não encontrado.");
+
+        return cargo;
+    }
+
+    async GetAll() {
+        const cargo = await prismaClient.cargo.findMany(
+            {
+                select: {
+                    idcargo: true,
+                    nome: true,
+                    salariobase: true,
+                    iddepartamento: true
+                }
+            });
+
+        if (!cargo)
+            throw new Error("Cargos não encontrados.");
 
         return cargo;
     }

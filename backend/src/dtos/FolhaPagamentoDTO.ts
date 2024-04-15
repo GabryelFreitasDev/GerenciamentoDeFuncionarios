@@ -5,3 +5,5 @@ interface FolhaPagamentoDTO {
     iddescontos: string
     idhorastrabalhadas: string
 }
+
+export { FolhaPagamentoDTO }

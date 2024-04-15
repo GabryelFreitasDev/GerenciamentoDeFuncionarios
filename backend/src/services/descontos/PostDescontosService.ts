@@ -1,3 +1,4 @@
+import { DescontosDTO } from '../../dtos/DescontosDTO';
 import prismaClient from '../../prisma/prismaclient'
 
 class PostDescontosService {

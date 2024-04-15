@@ -1,3 +1,4 @@
+import { AdicionaisDTO } from '../../dtos/AdicionaisDTO';
 import prismaClient from '../../prisma/prismaclient'
 
 class PostAdicionaisService {

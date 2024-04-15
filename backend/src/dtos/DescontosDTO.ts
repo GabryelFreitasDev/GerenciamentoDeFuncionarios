@@ -5,3 +5,5 @@ interface DescontosDTO {
     valorhorasausentes: number,
     contribuicaosindical: number
 }
+
+export { DescontosDTO }

@@ -1,3 +1,4 @@
+import { HorasTrabalhadasDTO } from '../../dtos/HorasTrabalhadasDTO';
 import prismaClient from '../../prisma/prismaclient'
 
 class PostHorasTrabalhadasService {

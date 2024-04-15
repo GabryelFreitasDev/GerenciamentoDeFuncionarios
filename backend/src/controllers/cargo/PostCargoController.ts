@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { PostCargoService } from '../../services/cargo/PostCargoService'
+import { CargoDTO } from "../../dtos/CargoDTO";
 
 class PostCargoController {
     async handle(req: Request, res: Response) {

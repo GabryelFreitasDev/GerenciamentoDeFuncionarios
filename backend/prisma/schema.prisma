@@ -32,7 +32,7 @@ model Usuario {
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
-  empresa Empresa @relation(fields: [idempresa], references: [idempresa])
+  empresa Empresa? @relation(fields: [idempresa], references: [idempresa]) 
   funcionarios Funcionario[]
 
   @@map("usuario")
@@ -44,7 +44,7 @@ model Departamento{
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
-  funcionarios Funcionario[]
+  //funcionarios Funcionario[]
   cargos Cargo[]
 
   @@map("departamento")
@@ -56,7 +56,7 @@ model Cargo{
   salariobase Decimal @db.Decimal(18,5)
   iddepartamento String
 
-  departamento Departamento @relation(fields: [iddepartamento], references: [iddepartamento])
+  departamento Departamento? @relation(fields: [iddepartamento], references: [iddepartamento])
   funcionarios Funcionario[]
 
   @@map("cargo")
@@ -64,19 +64,19 @@ model Cargo{
 
 model Funcionario{
   idfuncionario String @id @default(uuid())
-  codigo Int
+  //codigo Int
   nome String @db.VarChar(200)
-  iddepartamento String
+  //iddepartamento String
   idcargo String
   categoria Int 
-  dataadmissao DateTime
+  dataadmissao DateTime @db.Date
   idusuariocadastro String
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
-  departamento Departamento @relation(fields: [iddepartamento], references: [iddepartamento])
-  usuario Usuario @relation(fields: [idusuariocadastro], references: [idusuario])
-  cargo Cargo @relation(fields: [idcargo], references: [idcargo])
+  //departamento Departamento? @relation(fields: [iddepartamento], references: [iddepartamento])
+  usuario Usuario? @relation(fields: [idusuariocadastro], references: [idusuario])
+  cargo Cargo? @relation(fields: [idcargo], references: [idcargo])
 
   folhapagamento FolhaPagamento[]
 
@@ -155,11 +155,11 @@ model FolhaPagamento{
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
-  funcionario Funcionario @relation(fields: [idfuncionario], references: [idfuncionario])
-  beneficios Beneficios @relation(fields: [idbeneficios], references: [idbeneficio])
-  adicionais Adicionais @relation(fields: [idadicionais], references: [idadicional])
-  descontos Descontos @relation(fields: [iddescontos], references: [iddesconto])
-  horastrabalhadas HorasTrabalhadas @relation(fields: [idhorastrabalhadas], references: [idhorastrabalhadas])
+  funcionario Funcionario? @relation(fields: [idfuncionario], references: [idfuncionario])
+  beneficios Beneficios? @relation(fields: [idbeneficios], references: [idbeneficio])
+  adicionais Adicionais? @relation(fields: [idadicionais], references: [idadicional])
+  descontos Descontos? @relation(fields: [iddescontos], references: [iddesconto])
+  horastrabalhadas HorasTrabalhadas? @relation(fields: [idhorastrabalhadas], references: [idhorastrabalhadas])
 
   @@map("folhapagamento")
 }

@@ -3,3 +3,5 @@ interface EmpresaDTO {
     cnpj: string,
     endereco: string,
 }
+
+export { EmpresaDTO } 
