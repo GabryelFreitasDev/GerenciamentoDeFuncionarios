@@ -51,6 +51,7 @@ router.get('/Funcionarios', new GetFuncionarioController().GetAll);
 //post
 router.post('/Funcionario', new PostFuncionarioController().Post);
 router.put('/Funcionario', new PostFuncionarioController().Put);
+router.delete('/Funcionario', new PostFuncionarioController().Delete);
 
 //get
 router.get('/Beneficios', new GetBeneficiosController().handle);

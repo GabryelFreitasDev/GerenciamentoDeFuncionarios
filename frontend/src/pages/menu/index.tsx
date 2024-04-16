@@ -10,28 +10,23 @@ import { Button } from "@/components/ui/Button/button";
 import { setupAPIClient } from "@/services/api";
 import { CargoData } from "@/interfaces/CargoData";
 import { FaEye } from "react-icons/fa";
+import { useFuncionarioDataMutateDelete, useFuncionarioDataMutatePut } from "@/hooks/funcionario/useFuncionarioDataMutate";
+import { categoriaEnum } from "@/enums/categoriaEnum";
+import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import { FuncionarioData } from "@/interfaces/FuncionarioData";
 
 interface MenuProps {
   cargoList: CargoData[]
+  funcionarioList: FuncionarioData[]
 }
 
-const categoriaOptions = [
-  { id: 1, name: "Segurado Empregado" },
-  { id: 2, name: "Trabalhador Avulso" },
-  { id: 3, name: "Contribuinte Individual" },
-  { id: 4, name: "Empregado contratado" }
-]
-
-export default function Menu({ cargoList }: MenuProps) {
-
-  const { data } = useFuncionarioData();
-
+export default function Menu({ cargoList, funcionarioList }: MenuProps) {
   const router = useRouter();
 
   const columns: GridColDef[] = [
-    //{ field: 'codigo', headerName: 'Código', width: 100 },
     { field: 'nome', headerName: 'Nome', minWidth: 400, type: 'string' },
-    { field: 'idcargo', headerName: 'Cargo', width: 200, type: 'string'},
+    { field: 'idcargo', headerName: 'Cargo', width: 200, type: 'string' },
     { field: 'categoria', headerName: 'Categoria', width: 200, type: 'string' },
     { field: 'dataadmissao', headerName: 'Data de Admissão', width: 150 },
     {
@@ -52,7 +47,7 @@ export default function Menu({ cargoList }: MenuProps) {
           icon={<FiTrash color="red" />}
           label="Excluir"
           sx={{ width: 100, zoom: 1.5 }}
-        //onClick={}
+          onClick={() => { excluir(id.toString()) }}
         />
         ]
       }
@@ -73,16 +68,31 @@ export default function Menu({ cargoList }: MenuProps) {
   const cargosOptions = cargoList?.map(cargo => ({
     id: cargo.idcargo,
     name: cargo.nome
-  })) || []
+  })) || [];
 
-  let rows: GridRowsProp = data?.map(funcionario => ({
+  const initialRows: GridRowsProp = funcionarioList?.map(funcionario => ({
     id: funcionario.idfuncionario,
-    //codigo: funcionario.codigo,
     nome: funcionario.nome,
     idcargo: cargosOptions.find(x => x.id == funcionario.idcargo)?.name,
-    categoria: categoriaOptions.find(x => x.id == funcionario.categoria)?.name,
+    categoria: categoriaEnum.find(x => x.id == funcionario.categoria)?.name,
     dataadmissao: funcionario.dataadmissao?.toString().split('T')[0].split('-').reverse().join('/')
   })) || [];
+
+  const [rows, setRows] = useState(initialRows)
+  const { mutate, isSuccess } = useFuncionarioDataMutateDelete();
+
+  const excluir = (idfuncionario: String) => {
+    const funcionarioSelecionado = funcionarioList?.find(x => x.idfuncionario === idfuncionario)
+    mutate(idfuncionario);
+
+    toast.success(`Funcionário ${funcionarioSelecionado?.nome} excluído com sucesso!`);
+    setRows(rows.filter((row) => row.id !== idfuncionario));
+  }
+
+  useEffect(() => {
+    if (!isSuccess) return
+    Router.push("/menu");
+  }, [isSuccess])
 
   return (
     <>
@@ -91,8 +101,8 @@ export default function Menu({ cargoList }: MenuProps) {
       </Head>
       <div className={styles.containerCenter}>
         <Header />
-        <Button onClick={ () => {router.push('/funcionario') }}>Adicionar</Button>
-        <DataGrid columns={columns} rows={rows} sx={{ width: '100%', padding: 2 }}/>;
+        <Button onClick={() => { router.push('/funcionario') }}>Adicionar</Button>
+        <DataGrid columns={columns} rows={rows} sx={{ width: '100%', padding: 2 }} />;
       </div>
     </>
   );
@@ -102,11 +112,11 @@ export const getServerSideProps = canSSRAuth(async () => {
   const apiClient = setupAPIClient();
 
   const responseCargo = await apiClient.get('/Cargos')
- 
-
+  const responseFuncionario = await apiClient.get('/Funcionarios')
   return {
     props: {
       cargoList: responseCargo.data,
+      funcionarioList: responseFuncionario.data,
     }
   }
 })
