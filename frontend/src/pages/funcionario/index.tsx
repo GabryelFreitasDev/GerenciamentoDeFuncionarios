@@ -5,10 +5,9 @@ import { Header } from "@/components/Header";
 import { Select } from "@/components/ui/Select/select";
 import { Button } from "@/components/ui/Button/button";
 import { Input } from "@/components/ui/Input/input";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Router, { useRouter } from "next/router";
 import Head from "next/head";
-import { useCargoData } from "@/hooks/cargo/useCargoData";
 import { canSSRAuth } from "@/utils/canSSRAuth";
 import { CargoData } from "@/interfaces/CargoData";
 import { FuncionarioData } from "@/interfaces/FuncionarioData";
@@ -17,6 +16,7 @@ import { AuthContext, AuthProvider } from "@/contexts/AuthContext";
 import { setupAPIClient } from "@/services/api";
 import { useFuncionarioData } from "@/hooks/funcionario/useFuncionarioData";
 import { toast } from "react-toastify";
+import { categoriaEnum } from "@/enums/categoriaEnum";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -26,7 +26,7 @@ interface TabPanelProps {
 
 interface FuncionarioProps {
   cargoList: CargoData[],
-  data?: FuncionarioData
+  funcionarioList?: FuncionarioData[]
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -58,29 +58,19 @@ function FuncionarioTabs({ value, handleChange }: { value: number; handleChange:
     </Tabs>
   );
 }
-
-const categoriaOptions = [
-  { id: 1, name: "Segurado Empregado" },
-  { id: 2, name: "Trabalhador Avulso" },
-  { id: 3, name: "Contribuinte Individual" },
-  { id: 4, name: "Empregado contratado" }
-]
-
-export default function Funcionario({ cargoList }: FuncionarioProps) {
-  const { user } = useContext(AuthContext);
-  const { data } = useFuncionarioData();
+export default function Funcionario({ cargoList, funcionarioList }: FuncionarioProps) {
   const router = useRouter();
   const { id } = router.query;
 
-  const funcionario = data?.find(x => x.idfuncionario == id);
+  const funcionario = funcionarioList?.find(x => x.idfuncionario == id);
   const cargosOptions = cargoList?.map(cargo => ({
     id: cargo.idcargo,
     name: cargo.nome
   })) || []
 
   const [nome, setNome] = useState(funcionario?.nome ? funcionario.nome : '');
-  const [cargo, setCargo] = useState(funcionario?.idcargo ? cargosOptions.find(x => x.id == funcionario.idcargo)?.name : cargosOptions[0]?.name);
-  const [categoria, setCategoria] = useState(funcionario?.categoria ? categoriaOptions.find(x => x.id == funcionario.categoria)?.name : categoriaOptions[0]?.name);
+  const [cargo, setCargo] = useState(funcionario?.idcargo ? cargosOptions.find(x => x.id == funcionario.idcargo)?.name : '');
+  const [categoria, setCategoria] = useState(funcionario?.categoria ? categoriaEnum.find(x => x.id == funcionario.categoria)?.name : '');
   const [dataadmissao, setDataAdimissao] = useState(funcionario?.dataadmissao ? funcionario.dataadmissao.toString().split('T')[0] : new Date().toISOString().split('T')[0]);
 
   const { mutate, isSuccess } = funcionario ? useFuncionarioDataMutatePut() : useFuncionarioDataMutatePost();
@@ -90,7 +80,7 @@ export default function Funcionario({ cargoList }: FuncionarioProps) {
       idfuncionario: funcionario?.idfuncionario ? funcionario.idfuncionario : '',
       nome, 
       idcargo: cargosOptions.find(x => x.name == cargo)?.id,
-      categoria: categoriaOptions.find(x => x.name == categoria)?.id,
+      categoria: categoriaEnum.find(x => x.name == categoria)?.id,
       dataadmissao: new Date(dataadmissao),
       idusuariocadastro: 'a1d4603e-16b5-4850-a27d-fd89382e0157'
     }
@@ -124,14 +114,13 @@ export default function Funcionario({ cargoList }: FuncionarioProps) {
         <Button onClick={() => { Router.push("/menu") }}>Cancelar</Button>
         <Button onClick={ submit }>Salvar</Button>
 
-
         <FuncionarioTabs value={value} handleChange={handleChange} />
 
         <TabPanel value={value} index={0}>
           <div className={styles.containerCenter}>
             <Input placeholder='Nome' type='text' value={nome} onChange={(e) => setNome(e.target.value)} />
             <Select options={cargosOptions} value={cargo} updateValue={setCargo}></Select>
-            <Select options={categoriaOptions} value={categoria} updateValue={setCategoria}></Select>
+            <Select options={categoriaEnum} value={categoria} updateValue={setCategoria}></Select>
             <Input placeholder='Data de admissão' type='date' value={dataadmissao} onChange={(e) => setDataAdimissao(e.target.value)} />
           </div>
          
@@ -192,15 +181,16 @@ export default function Funcionario({ cargoList }: FuncionarioProps) {
   );
 }
 
-export const getServerSideProps = canSSRAuth(async () => {
+export const getServerSideProps = canSSRAuth(async (context) => {
   const apiClient = setupAPIClient();
 
   const responseCargo = await apiClient.get('/Cargos')
- 
-
+  const responseFuncionario = await apiClient.get('/Funcionarios')
   return {
     props: {
       cargoList: responseCargo.data,
+      funcionarioList: responseFuncionario.data,
+
     }
   }
 })

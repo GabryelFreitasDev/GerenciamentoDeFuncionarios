@@ -10,13 +10,18 @@ const postData = async (data: FuncionarioData): Promise<AxiosResponse<any>> => {
     return response;
 };
 
-const deleteData = async (idFuncionario?: Number): Promise<AxiosResponse<any>> => {
-    const response = api.delete(`/Funcionarios/${idFuncionario}`);
+const deleteData = async (idFuncionario?: String): Promise<AxiosResponse<any>> => {
+    const response = api.delete(`/Funcionario`, { params: { idfuncionario: idFuncionario } });
     return response;
 };
 
 const putData = async (data: FuncionarioData): Promise<AxiosResponse<any>> => {
     const response = api.put('/Funcionario', data);
+    return response;
+};
+
+const getData = async (idFuncionario?: String): Promise<AxiosResponse<FuncionarioData[]>> => {
+    const response = await api.get('/Funcionario', { params: { idfuncionario: idFuncionario } });
     return response;
 };
 
@@ -58,4 +63,17 @@ export function useFuncionarioDataMutatePut() {
     });
 
     return mutatePut;
+}
+
+export function useFuncionarioDataMutateGet() {
+    const queryClient = useQueryClient();
+    const mutateGet = useMutation({
+        mutationFn: getData,
+        retry: 2,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['funcionario-data'] });
+        }
+    });
+
+    return mutateGet;
 }

@@ -24,6 +24,17 @@ class PostFuncionarioController {
 
         return res.json(funcionario);
     }
+
+    async Delete(req: Request, res: Response) {
+        
+        const idfuncionario = req.query.idfuncionario?.toString() ?? '';
+        
+        const cadastrarFuncionarioService = new PostFuncionarioService();
+
+        const funcionario = await cadastrarFuncionarioService.Delete(idfuncionario);
+
+        return res.json(funcionario);
+    }
 }
 
 export { PostFuncionarioController };

@@ -1,7 +1,7 @@
 import { FuncionarioDTO } from '../../dtos/FuncionarioDTO';
 import prismaClient from '../../prisma/prismaclient'
 
-class PostFuncionarioService {
+export class PostFuncionarioService {
     async Post({ nome, idcargo, categoria, dataadmissao, idusuariocadastro }: FuncionarioDTO) {
        
         const funcionarioJaExite = await prismaClient.funcionario.findFirst({ where: { nome: nome } })
@@ -58,6 +58,21 @@ class PostFuncionarioService {
         })
         return funcionario;
     }
-}
 
-export { PostFuncionarioService };
+    async Delete(idFuncionario: string) {
+        const funcionario = await prismaClient.funcionario.delete({
+            select: {
+                idfuncionario: true,
+                //codigo: true,
+                nome: true,
+                //iddepartamento: true,
+                idcargo: true,
+                categoria: true,
+                dataadmissao: true,
+                idusuariocadastro: true
+            },
+            where: { idfuncionario: idFuncionario }
+        })
+        return funcionario;
+    }
+}
