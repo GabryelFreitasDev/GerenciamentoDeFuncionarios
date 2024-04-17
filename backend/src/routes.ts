@@ -1,82 +1,73 @@
 import { Router, Request, Response } from 'express'
-import { GetUsuarioController } from './controllers/usuario/GetUsuarioController';
-import { AutenticarUsuarioController } from './controllers/usuario/AutenticarUsuarioController';
-import { PostUsuarioController } from './controllers/usuario/PostUsuarioController';
-import { GetEmpresaController } from './controllers/empresa/GetEmpresaController';
-import { PostEmpresaController } from './controllers/empresa/PostEmpresaController';
-import { GetDepartamentoController } from './controllers/departamento/GetDepartamentoController';
-import { PostDepartamentoController } from './controllers/departamento/PostDepartamentoController';
-import { GetCargoController } from './controllers/cargo/GetCargoController';
-import { PostCargoController } from './controllers/cargo/PostCargoController';
-import { GetAdicionaisController } from './controllers/adicionais/GetAdicionaisController';
-import { PostAdicionaisController } from './controllers/adicionais/PostAdicionaisController';
-import { GetBeneficiosController } from './controllers/beneficios/GetBeneficiosController';
-import { PostBeneficiosController } from './controllers/beneficios/PostBeneficiosController';
-import { GetFuncionarioController } from './controllers/funcionario/GetFuncionarioController';
-import { PostFuncionarioController } from './controllers/funcionario/PostFuncionarioController';
-import { GetHorasTrabalhadasController } from './controllers/horastrabalhadas/GetHorasTrabalhadasController';
-import { PostHorasTrabalhadasController } from './controllers/horastrabalhadas/PostHorasTrabalhadasController';
-import { PostFolhaPagamentoController } from './controllers/folhapagamento/PostFolhaPagamentoController';
-import { GetDescontosController } from './controllers/descontos/GetDescontosController';
-import { PostDescontosController } from './controllers/descontos/PostDescontosController';
-import { GetFolhaPagamentoController } from './controllers/folhapagamento/GetFolhaPagamentoController';
+import { FolhaPagamentoController } from './controllers/FolhaPagamentoController';
+import { EmpresaController } from './controllers/EmpresaController';
+import { UsuarioController } from './controllers/UsuarioController';
+import { DepartamentoController } from './controllers/DepartamentoController';
+import { CargoController } from './controllers/CargoController';
+import { FuncionarioController } from './controllers/FuncionarioController';
+import { BeneficiosController } from './controllers/BeneficiosController';
+import { AdicionaisController } from './controllers/AdicionaisController';
+import { HorasTrabalhadasController } from './controllers/HorasTrabalhadasController';
+import { DescontosController } from './controllers/DescontosController';
+
+
 
 const router = Router();
 
 //get
-router.get('/Empresa', new GetEmpresaController().handle);
+router.get('/Empresa', new EmpresaController().Get);
 //post
-router.post('/Empresa', new PostEmpresaController().handle);
+router.post('/Empresa', new EmpresaController().Post);
 
 //get
-router.get('/Usuario', new GetUsuarioController().handle);
+router.get('/Usuario', new UsuarioController().Get);
 //post
-router.post('/Usuario', new PostUsuarioController().handle);
-router.post('/Usuario/AutenticarUsuario', new AutenticarUsuarioController().handle);
+router.post('/Usuario', new UsuarioController().Post);
+router.post('/Usuario/AutenticarUsuario', new UsuarioController().AutenticarUsuario);
 
 //get
-router.get('/Departamento', new GetDepartamentoController().handle);
+router.get('/Departamento', new DepartamentoController().Get);
 //post
-router.post('/Departamento', new PostDepartamentoController().handle);
+router.post('/Departamento', new DepartamentoController().Post);
 
 //get
-router.get('/Cargo', new GetCargoController().Get);
-router.get('/Cargos', new GetCargoController().GetAll);
+router.get('/Cargo', new CargoController().Get);
+router.get('/Cargos', new CargoController().GetAll);
 //post
-router.post('/Cargo', new PostCargoController().handle);
+router.post('/Cargo', new CargoController().Post);
 
 //get
-router.get('/Funcionario', new GetFuncionarioController().Get);
-router.get('/Funcionarios', new GetFuncionarioController().GetAll);
+router.get('/Funcionario', new FuncionarioController().Get);
+router.get('/Funcionarios', new FuncionarioController().GetAll);
 //post
-router.post('/Funcionario', new PostFuncionarioController().Post);
-router.put('/Funcionario', new PostFuncionarioController().Put);
-router.delete('/Funcionario', new PostFuncionarioController().Delete);
+router.post('/Funcionario', new FuncionarioController().Post);
+router.put('/Funcionario', new FuncionarioController().Put);
+router.delete('/Funcionario', new FuncionarioController().Delete);
 
 //get
-router.get('/Beneficios', new GetBeneficiosController().handle);
+router.get('/Beneficios', new BeneficiosController().Get);
 //post
-router.post('/Beneficios', new PostBeneficiosController().handle);
+router.post('/Beneficios', new BeneficiosController().Post);
 
 //get
-router.get('/Adicionais', new GetAdicionaisController().handle);
+router.get('/Adicionais', new AdicionaisController().Get);
 //post
-router.post('/Adicionais', new PostAdicionaisController().handle);
+router.post('/Adicionais', new AdicionaisController().Post);
 
 //get
-router.get('/HorasTrabalhadas', new GetHorasTrabalhadasController().handle);
+router.get('/HorasTrabalhadas', new HorasTrabalhadasController().Get);
 //post
-router.post('/HorasTrabalhadas', new PostHorasTrabalhadasController().handle);
+router.post('/HorasTrabalhadas', new HorasTrabalhadasController().Post);
 
 //get
-router.get('/Descontos', new GetDescontosController().handle);
+router.get('/Descontos', new DescontosController().Get);
 //post
-router.post('/Descontos', new PostDescontosController().handle);
+router.post('/Descontos', new DescontosController().Post);
 
 //get
-router.get('/FolhaPagamento', new GetFolhaPagamentoController().handle);
+router.get('/FolhaPagamento', new FolhaPagamentoController().Get);
 //post
-router.post('/FolhaPagamento', new PostFolhaPagamentoController().handle);
+router.post('/FolhaPagamento', new FolhaPagamentoController().Post);
 
 
 export { router };

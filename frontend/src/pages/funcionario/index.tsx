@@ -24,9 +24,12 @@ interface TabPanelProps {
   value: number;
 }
 
-interface FuncionarioDependencies {
-  cargos: CargoData[],
+interface FuncionarioDependencias {
   beneficios: CargoData,
+  adicionais: CargoData,
+  horas: CargoData,
+  desconto: CargoData,
+  folhaPagamento: CargoData
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -63,30 +66,36 @@ export default function Funcionario() {
   const { funcionarioJSON } = router.query;
 
   const funcionario :FuncionarioData | null = funcionarioJSON ? JSON.parse(funcionarioJSON as string) : null;
+  let folhaPagamento = null;
 
-  let dependencies :FuncionarioDependencies | null = null;
+  //let dependencias :FuncionarioDependencias = null;
 
  
 
   async function CarregaDependencias(){
     const apiClient = setupAPIClient();
 
-    const responseCargo = await apiClient.get('/Cargos')
-    const responseFuncionario = await apiClient.get('/Funcionarios')
+    const responseFolhaPagamento = await apiClient.get('/FolhaPagamento', { params: { idfuncionario: funcionario?.idfuncionario } });
+    folhaPagamento = responseFolhaPagamento.data;
+    
+    const responseCargo = await apiClient.get('/Cargo', { params: { idcargo: funcionario?.idcargo } })
     const responseBeneficios = await apiClient.get('/Beneficios');
     const responseAdicionais = await apiClient.get('/Adicionais'); 
     const responseHoras = await apiClient.get('/Horas');
     const responseDescontos = await apiClient.get('/Descontos');
-    const responseFolhaPagamentos = await apiClient.get('/FolhasPagamentos');
     
-    dependencies?.cargos = responseCargo.data
+    
+    // if(dependencias){
+    //   dependencias.cargos = responseCargo.data;
+    //   dependencias.
+    // }
     
   }
 
   
 
   const [nome, setNome] = useState(funcionario?.nome ? funcionario.nome : '');
-  const [cargo, setCargo] = useState(funcionario?.idcargo ? cargosOptions.find(x => x.id == funcionario.idcargo)?.name : '');
+  const [cargo, setCargo] = useState(funcionario?.idcargo ? dependencias.cargos.find(x => x.id == funcionario.idcargo)?.name : '');
   const [categoria, setCategoria] = useState(funcionario?.categoria ? categoriaEnum.find(x => x.id == funcionario.categoria)?.name : '');
   const [dataadmissao, setDataAdimissao] = useState(funcionario?.dataadmissao ? funcionario.dataadmissao.toString().split('T')[0] : new Date().toISOString().split('T')[0]);
 
@@ -236,13 +245,13 @@ export const getServerSideProps = canSSRAuth(async (context) => {
   
   return {
     props: {
-      cargoList: responseCargo.data,
-      funcionarioList: responseFuncionario.data,
-      beneficiosList: responseBeneficios.data,
-      adicionaisList: responseAdicionais.data,
-      horasList: responseHoras.data,
-      descontosList: responseDescontos.data,
-      folhaPagamentoList: responseFolhaPagamentos.data
+      // cargoList: responseCargo.data,
+      // funcionarioList: responseFuncionario.data,
+      // beneficiosList: responseBeneficios.data,
+      // adicionaisList: responseAdicionais.data,
+      // horasList: responseHoras.data,
+      // descontosList: responseDescontos.data,
+      // folhaPagamentoList: responseFolhaPagamentos.data
     }
   }
 })
