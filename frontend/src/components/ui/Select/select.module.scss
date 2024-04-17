@@ -1,19 +1,13 @@
-.input{
-    margin-bottom: 1rem;
+.selectContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.select {
     height: 40px;
-    border: 1;
-    border-color: (--black);
-    box-shadow: none;
+    border: 1px solid;
     border-radius: 0.5rem;
     color: var(--black);
     padding: 0.6rem;
-}
-
-.textarea{
-    margin-bottom: 1rem;
-    border: 1;
-    border-color: (--black);
-    box-shadow: none;
-    border-radius: 0.5rem;
-    color: var(--black);
+    margin-top: -0.2rem; 
 }

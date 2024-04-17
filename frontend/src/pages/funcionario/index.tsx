@@ -130,15 +130,15 @@ export default function Funcionario({ cargoList }: FuncionarioProps) {
         <TabPanel value={value} index={0}>
           <div className={styles.containerCenter}>
             <Input placeholder='Nome' type='text' value={nome} onChange={(e) => setNome(e.target.value)} />
-            <Select label='Cargo' options={cargosOptions} value={cargo} updateValue={setCargo}></Select>
-            <Select label='Categoria' options={categoriaOptions} value={categoria} updateValue={setCategoria}></Select>
+            <Select options={cargosOptions} value={cargo} updateValue={setCargo}></Select>
+            <Select options={categoriaOptions} value={categoria} updateValue={setCategoria}></Select>
             <Input placeholder='Data de admissão' type='date' value={dataadmissao} onChange={(e) => setDataAdimissao(e.target.value)} />
           </div>
          
          <div>
             <h1>Salario</h1>
             <Input placeholder='Salario Base' disabled type='text'  onChange={(e) => setNome(e.target.value)} />
-            <Input placeholder='Salario' type='number'   />
+            <Input placeholder='Salario' type='number'/>
             <Input placeholder='Salario Bruto' disabled type='text'  onChange={(e) => setNome(e.target.value)} />
             <Input placeholder='Salario Liquido' disabled type='text'  onChange={(e) => setNome(e.target.value)} />
           </div>
