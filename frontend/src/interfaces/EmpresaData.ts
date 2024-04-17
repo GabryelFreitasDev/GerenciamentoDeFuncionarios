@@ -1,4 +1,4 @@
-interface EmpresaData {
+export interface EmpresaData {
     idempresa: string,
     nome: string,
     cnpj: string,

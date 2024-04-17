@@ -1,4 +1,4 @@
-export interface BeneficioData {
+export interface BeneficiosData {
     idbeneficio: string,
     valetransporte: number,
     valealimentacao: number,

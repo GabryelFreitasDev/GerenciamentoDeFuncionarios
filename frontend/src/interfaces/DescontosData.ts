@@ -1,4 +1,4 @@
-interface DescontosData {
+export interface DescontosData {
     iddesconto: string,
     inss: number,
     fgts: number,

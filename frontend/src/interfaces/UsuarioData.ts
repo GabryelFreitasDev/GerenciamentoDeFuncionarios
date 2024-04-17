@@ -1,4 +1,4 @@
-interface UsuarioData {
+export interface UsuarioData {
     idusuario: string,
     nome: string,
     login: string,

@@ -1,4 +1,4 @@
-interface FolhaDePagamentoData {
+export interface FolhaDePagamentoData {
     idfolhapagamento: string,
     idfuncionario: string,
     idbeneficios: string,

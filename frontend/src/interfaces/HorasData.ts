@@ -1,4 +1,4 @@
-interface HorasData {
+export interface HorasData {
     idhorastrabalhadas: string,
     horastrabalhadas: Date,
     horasausentes: number,
