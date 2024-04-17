@@ -167,8 +167,8 @@ export default function Funcionario() {
         <TabPanel value={value} index={0}>
           <div className={styles.containerCenter}>
             <Input placeholder='Nome' type='text' value={nome} onChange={(e) => setNome(e.target.value)} />
-            <Select label='Cargo' options={cargosOptions} value={cargo} updateValue={setCargo}></Select>
-            <Select label='Categoria' options={categoriaEnum} value={categoria} updateValue={setCategoria}></Select>
+            <Select options={cargosOptions} value={cargo} updateValue={setCargo}></Select>
+            <Select options={categoriaEnum} value={categoria} updateValue={setCategoria}></Select>
             <Input placeholder='Data de admissão' type='date' value={dataadmissao} onChange={(e) => setDataAdimissao(e.target.value)} />
           </div>
 
