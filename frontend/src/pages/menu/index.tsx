@@ -36,7 +36,7 @@ export default function Menu({ cargoList, funcionarioList }: MenuProps) {
           size="medium"
           label="Editar"
           sx={{ width: 100, zoom: 1.5 }}
-          onClick={() => { router.push({ pathname: '/funcionario', query: { id } }); }}
+          onClick={() => { router.push({ pathname: '/funcionario', query: { funcionario: JSON.stringify(funcionarioList.find(x => x.idfuncionario == id)) } }); }}
         />
         ]
       }
