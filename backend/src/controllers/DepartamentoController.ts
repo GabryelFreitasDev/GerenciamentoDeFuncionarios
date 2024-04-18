@@ -20,6 +20,28 @@ class DepartamentoController {
 
         return res.json(departamento);
     }
+
+    async Put(req: Request, res: Response) {
+        
+        const departamentoDTO: DepartamentoDTO  = req.body;
+        
+        const cadastrarDepartamentoService = new DepartamentoService();
+
+        const departamento = await cadastrarDepartamentoService.Put(departamentoDTO);
+
+        return res.json(departamento);
+    }
+
+    async Delete(req: Request, res: Response) {
+        
+        const iddepartamento = req.query.iddepartamento?.toString() ?? '';
+        
+        const cadastrarDepartamentoService = new DepartamentoService();
+
+        const departamento = await cadastrarDepartamentoService.Delete(iddepartamento);
+
+        return res.json(departamento);
+    }
 }
 
 export { DepartamentoController }

@@ -20,6 +20,28 @@ class EmpresaController {
 
         return res.json(empresa);
     }
+
+    async Put(req: Request, res: Response) {
+        
+        const empresaDTO: EmpresaDTO  = req.body;
+        
+        const cadastrarEmpresaService = new EmpresaService();
+
+        const empresa = await cadastrarEmpresaService.Put(empresaDTO);
+
+        return res.json(empresa);
+    }
+
+    async Delete(req: Request, res: Response) {
+        
+        const idempresa = req.query.idempresa?.toString() ?? '';
+        
+        const cadastrarEmpresaService = new EmpresaService();
+
+        const empresa = await cadastrarEmpresaService.Delete(idempresa);
+
+        return res.json(empresa);
+    }
 }
 
 export { EmpresaController }

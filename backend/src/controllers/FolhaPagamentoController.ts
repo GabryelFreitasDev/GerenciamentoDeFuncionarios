@@ -29,6 +29,28 @@ class FolhaPagamentoController {
 
         return res.json(folhapagamento);
     }
+
+    async Put(req: Request, res: Response) {
+        
+        const folhaPagamentoDTO: FolhaPagamentoDTO  = req.body;
+        
+        const cadastrarFolhaPagamentoService = new FolhaPagamentoService();
+
+        const folhaPagamento = await cadastrarFolhaPagamentoService.Put(folhaPagamentoDTO);
+
+        return res.json(folhaPagamento);
+    }
+
+    async Delete(req: Request, res: Response) {
+        
+        const idfolhapagamento = req.query.idfolhapagamento?.toString() ?? '';
+        
+        const cadastrarFolhaPagamentoService = new FolhaPagamentoService();
+
+        const folhaPagamento = await cadastrarFolhaPagamentoService.Delete(idfolhapagamento);
+
+        return res.json(folhaPagamento);
+    }
 }
 
 export { FolhaPagamentoController }

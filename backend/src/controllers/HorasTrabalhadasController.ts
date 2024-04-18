@@ -20,6 +20,28 @@ class HorasTrabalhadasController {
 
         return res.json(horastrabalhadas);
     }
+
+    async Put(req: Request, res: Response) {
+        
+        const horasTrabalhadasDTO: HorasTrabalhadasDTO  = req.body;
+        
+        const cadastrarHorasTrabalhadasService = new HorasTrabalhadasService();
+
+        const horasTrabalhadas = await cadastrarHorasTrabalhadasService.Put(horasTrabalhadasDTO);
+
+        return res.json(horasTrabalhadas);
+    }
+
+    async Delete(req: Request, res: Response) {
+        
+        const idhorastrabalhadas = req.query.idhorastrabalhadas?.toString() ?? '';
+        
+        const cadastrarHorasTrabalhadasService = new HorasTrabalhadasService();
+
+        const horasTrabalhadas = await cadastrarHorasTrabalhadasService.Delete(idhorastrabalhadas);
+
+        return res.json(horasTrabalhadas);
+    }
 }
 
 export { HorasTrabalhadasController }
