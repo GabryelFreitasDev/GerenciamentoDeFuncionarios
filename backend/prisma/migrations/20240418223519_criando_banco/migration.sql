@@ -47,13 +47,13 @@ CREATE TABLE "cargo" (
 -- CreateTable
 CREATE TABLE "funcionario" (
     "idfuncionario" TEXT NOT NULL,
-    "codigo" INTEGER NOT NULL,
     "nome" VARCHAR(200) NOT NULL,
-    "iddepartamento" TEXT NOT NULL,
     "idcargo" TEXT NOT NULL,
     "categoria" INTEGER NOT NULL,
-    "dataadmissao" TIMESTAMP(3) NOT NULL,
+    "dataadmissao" DATE NOT NULL,
     "idusuariocadastro" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "funcionario_pkey" PRIMARY KEY ("idfuncionario")
 );
@@ -135,9 +135,6 @@ ALTER TABLE "usuario" ADD CONSTRAINT "usuario_idempresa_fkey" FOREIGN KEY ("idem
 
 -- AddForeignKey
 ALTER TABLE "cargo" ADD CONSTRAINT "cargo_iddepartamento_fkey" FOREIGN KEY ("iddepartamento") REFERENCES "departamento"("iddepartamento") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "funcionario" ADD CONSTRAINT "funcionario_iddepartamento_fkey" FOREIGN KEY ("iddepartamento") REFERENCES "departamento"("iddepartamento") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "funcionario" ADD CONSTRAINT "funcionario_idusuariocadastro_fkey" FOREIGN KEY ("idusuariocadastro") REFERENCES "usuario"("idusuario") ON DELETE RESTRICT ON UPDATE CASCADE;
