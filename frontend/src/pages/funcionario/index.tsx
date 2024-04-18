@@ -68,7 +68,7 @@ function FuncionarioTabs({ value, handleChange }: { value: number; handleChange:
 }
 export default function Funcionario() {
   const { funcionarioData, cargosList } = useContext(FuncionarioContext);
-  const { user } = useContext(AuthContext); 
+  const { user } = useContext(AuthContext);
 
   const funcionario = funcionarioData?.funcionario;
 
@@ -146,12 +146,12 @@ export default function Funcionario() {
     ));
 
     const salarioBrutoCalculado =
-      parseFloat(salarioBase.toString()) + 
+      parseFloat(salarioBase.toString()) +
       parseFloat(valeAlimentacao.toString())
-     
-    const salarioLiquidoCalculado = 
+
+    const salarioLiquidoCalculado =
       parseFloat(salarioBrutoCalculado.toString()) -
-      parseFloat(valorTotalDescontos.toString()) 
+      parseFloat(valorTotalDescontos.toString())
 
     setValorTotalAdicionais(valorTotalAdicionais.toString());
     setSalarioLiquido(salarioLiquidoCalculado.toString());
@@ -160,13 +160,13 @@ export default function Funcionario() {
 
   useEffect(() => {
     const salarioBrutoCalculado =
-      parseFloat(salarioBase.toString()) + 
+      parseFloat(salarioBase.toString()) +
       parseFloat(valeAlimentacao.toString()) +
       parseFloat(valorTotalAdicionais)
-     
-    const salarioLiquidoCalculado = 
+
+    const salarioLiquidoCalculado =
       parseFloat(salarioBrutoCalculado.toString()) -
-      parseFloat(valorTotalDescontos.toString()) 
+      parseFloat(valorTotalDescontos.toString())
 
     setSalarioLiquido(salarioLiquidoCalculado.toString());
     setSalarioBruto(salarioBrutoCalculado.toString());
@@ -174,13 +174,13 @@ export default function Funcionario() {
 
   useEffect(() => {
     const salarioBrutoCalculado =
-      parseFloat(salarioBase.toString()) + 
+      parseFloat(salarioBase.toString()) +
       parseFloat(valeAlimentacao.toString()) +
       parseFloat(valorTotalAdicionais)
-     
-    const salarioLiquidoCalculado = 
+
+    const salarioLiquidoCalculado =
       parseFloat(salarioBrutoCalculado.toString()) -
-      parseFloat(valorTotalDescontos.toString()) 
+      parseFloat(valorTotalDescontos.toString())
 
     setSalarioLiquido(salarioLiquidoCalculado.toString());
     setSalarioBruto(salarioBrutoCalculado.toString());
@@ -223,15 +223,14 @@ export default function Funcionario() {
       </Head>
       <div>
         <Header />
-        <Button onClick={() => { Router.push("/menu") }}>Cancelar</Button>
-        <Button onClick={submit}>Salvar</Button>
-        <Button onClick={async () => await CalculaFolha(
+        <Button color='red' onClick={() => { Router.push("/menu") }}>Cancelar</Button>
+        <Button color='green' onClick={async () => await CalculaFolha(
           parseFloat(salarioBase.toString()),
           parseFloat(totalHorasTrabalhadas.toString()),
           parseFloat(totalHorasAusentes.toString()),
           parseFloat(totalHorasExtras.toString())
         )}>Calcular</Button>
-
+        <Button color='green' positionedRight onClick={submit}>Salvar</Button>
         <FuncionarioTabs value={value} handleChange={handleChange} />
 
         <TabPanel value={value} index={0}>

@@ -23,6 +23,11 @@
     color: var(--white);
 }
 
+.positionedRight {
+    position: absolute;
+    right: 20px;
+}
+
 @keyframes animate {
     from {
         transform: rotate(0deg);

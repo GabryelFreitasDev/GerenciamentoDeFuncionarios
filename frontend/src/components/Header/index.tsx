@@ -10,17 +10,9 @@ export function Header() {
     return (
         <header className={styles.headerContainer}>
             <div className={styles.headerContent}>
-                <h1>Gerenciamento de Funcionarios</h1>
+                <h1>Folha de Pagamento</h1>
 
                 <nav>
-                    <Link href={'/menu'} className={styles.link}>
-                        Talvez 1
-                    </Link>
-
-                    <Link href={'/menu'} className={styles.link}>
-                        Talvez 2
-                    </Link>
-
                     <button onClick={signOut}><FiLogOut color="FFF" size='30'/></button>
                 </nav>
             </div>
