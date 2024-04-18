@@ -18,8 +18,24 @@ class FolhaPagamentoService {
                 }
             });
 
-        if (!folhapagamento)
-            throw new Error("FolhaPagamento não encontrado.");
+        return folhapagamento;
+    }
+
+    async GetByIDFuncionario(idfuncionario: string) {
+        const folhapagamento = await prismaClient.folhaPagamento.findFirst(
+            {
+                where: {
+                    idfuncionario: idfuncionario
+                },
+                select: {
+                    idfolhapagamento: true,
+                    idfuncionario: true,
+                    idbeneficios: true,
+                    idadicionais: true,
+                    iddescontos: true,
+                    idhorastrabalhadas: true
+                }
+            });
 
         return folhapagamento;
     }

@@ -19,9 +19,6 @@ class DescontosService {
                 }
             });
 
-        if (!descontos)
-            throw new Error("Descontos não encontrado.");
-
         return descontos;
     }
 

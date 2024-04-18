@@ -13,16 +13,28 @@ import { FaEye } from "react-icons/fa";
 import { useFuncionarioDataMutateDelete, useFuncionarioDataMutatePut } from "@/hooks/funcionario/useFuncionarioDataMutate";
 import { categoriaEnum } from "@/enums/categoriaEnum";
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FuncionarioData } from "@/interfaces/FuncionarioData";
+import { FuncionarioContext } from "@/contexts/FuncionarioContext";
 
 interface MenuProps {
   cargoList: CargoData[]
   funcionarioList: FuncionarioData[]
 }
 
+
+
 export default function Menu({ cargoList, funcionarioList }: MenuProps) {
   const router = useRouter();
+  const { setFuncionarioData } = useContext(FuncionarioContext);
+
+  function EditarFuncionario(idfuncionario: string) {
+    
+    setFuncionarioData(idfuncionario);
+
+    router.push({ pathname: '/funcionario' });
+  }
+
 
   const columns: GridColDef[] = [
     { field: 'nome', headerName: 'Nome', minWidth: 400, type: 'string' },
@@ -36,7 +48,7 @@ export default function Menu({ cargoList, funcionarioList }: MenuProps) {
           size="medium"
           label="Editar"
           sx={{ width: 100, zoom: 1.5 }}
-          onClick={() => { router.push({ pathname: '/funcionario', query: { funcionario: JSON.stringify(funcionarioList.find(x => x.idfuncionario == id)) } }); }}
+          onClick={() => { EditarFuncionario(id.toString()); }}
         />
         ]
       }

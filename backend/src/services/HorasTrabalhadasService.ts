@@ -17,9 +17,6 @@ class HorasTrabalhadasService {
                 }
             });
 
-        if (!horasTrabalhadas)
-            throw new Error("Horas Trabalhadas não encontrad.");
-
         return horasTrabalhadas;
     }
 

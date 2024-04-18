@@ -41,9 +41,6 @@ class UsuarioService {
                 }
             });
 
-        if (!usuario)
-            throw new Error("Usuário não encontrado.");
-
         return usuario;
     }
 

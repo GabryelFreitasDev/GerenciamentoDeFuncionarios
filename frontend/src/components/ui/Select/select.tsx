@@ -8,16 +8,14 @@ interface SelectProps {
 
 export const Select = ({ value, options, updateValue }: SelectProps) => {
     return (
-        <div className={styles.selectContainer}>
-            <div>
-                <select className={styles.select} value={value} onChange={e => updateValue(e.target.value)}>
-                    {options.map(option => (
-                        <option key={option.id} value={option.name}>
-                            {option.name}
-                        </option>
-                    ))}
-                </select>
-            </div>
-        </div>
+        <>
+            <select className={styles.select} value={value} onChange={e => updateValue(e.target.value)}>
+                {options.map(option => (
+                    <option key={option.id} value={option.name}>
+                        {option.name}
+                    </option>
+                ))}
+            </select>
+        </>
     );
 };

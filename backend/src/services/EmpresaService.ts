@@ -10,9 +10,6 @@ class EmpresaService {
                 }
             });
 
-        if (!empresa)
-            throw new Error("Empresa não encontrada.");
-
         return empresa;
     }
 

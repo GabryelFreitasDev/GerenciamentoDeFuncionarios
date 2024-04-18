@@ -18,9 +18,6 @@ export class FuncionarioService {
                 }
             });
 
-        if (!funcionario)
-            throw new Error("Funcionario não encontrado.");
-
         return funcionario;
     }
 
@@ -36,9 +33,6 @@ export class FuncionarioService {
                     idusuariocadastro: true
                 }
             });
-
-        if (!funcionario)
-            throw new Error("Funcionarios não encontrados.");
 
         return funcionario;
     }

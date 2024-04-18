@@ -22,9 +22,6 @@ class AdicionaisService {
                 }
             });
 
-        if (!adicionais)
-            throw new Error("Adicionais não encontrado.");
-
         return adicionais;
     }
 

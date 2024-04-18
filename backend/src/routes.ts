@@ -10,8 +10,6 @@ import { AdicionaisController } from './controllers/AdicionaisController';
 import { HorasTrabalhadasController } from './controllers/HorasTrabalhadasController';
 import { DescontosController } from './controllers/DescontosController';
 
-
-
 const router = Router();
 
 //get
@@ -66,6 +64,7 @@ router.post('/Descontos', new DescontosController().Post);
 
 //get
 router.get('/FolhaPagamento', new FolhaPagamentoController().Get);
+router.get('/FolhaPagamento/GetByIDFuncionario', new FolhaPagamentoController().GetByIDFuncionario);
 //post
 router.post('/FolhaPagamento', new FolhaPagamentoController().Post);
 

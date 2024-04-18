@@ -12,6 +12,15 @@ class FolhaPagamentoController {
         return res.json(folhapagamento);
     }
 
+    async GetByIDFuncionario(req: Request, res: Response){
+        const idfuncionario = req.params.idfuncionario;
+        const getFolhaPagamentoService = new FolhaPagamentoService();
+
+        const folhapagamento = await getFolhaPagamentoService.GetByIDFuncionario(idfuncionario);
+
+        return res.json(folhapagamento);
+    }
+
     async Post(req: Request, res: Response) {
         const folhapagamentoDTO: FolhaPagamentoDTO  = req.body;
         const cadastrarFolhaPagamentoService = new FolhaPagamentoService();

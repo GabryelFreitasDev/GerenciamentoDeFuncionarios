@@ -1,6 +1,6 @@
 export interface HorasData {
     idhorastrabalhadas: string,
-    horastrabalhadas: Date,
+    horastrabalhadas: number,
     horasausentes: number,
     horasextras: number
 }

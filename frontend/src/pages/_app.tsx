@@ -6,16 +6,19 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { AuthProvider } from '../contexts/AuthContext'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { FuncionarioProvider } from '@/contexts/FuncionarioContext';
 
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
    <AuthProvider>
-    <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
-      <ToastContainer autoClose={3000} />
-    </QueryClientProvider>
+     <FuncionarioProvider>
+      <QueryClientProvider client={queryClient}>
+        <Component {...pageProps} />
+        <ToastContainer autoClose={3000} />
+      </QueryClientProvider>
+     </FuncionarioProvider>
    </AuthProvider>
   )
 }

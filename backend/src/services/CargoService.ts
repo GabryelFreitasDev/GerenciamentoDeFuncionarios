@@ -17,9 +17,6 @@ class CargoService {
                 }
             });
 
-        if (!cargo)
-            throw new Error("Cargo não encontrado.");
-
         return cargo;
     }
 

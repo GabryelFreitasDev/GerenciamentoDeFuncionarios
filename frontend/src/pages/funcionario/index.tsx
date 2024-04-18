@@ -5,18 +5,21 @@ import { Header } from "@/components/Header";
 import { Select } from "@/components/ui/Select/select";
 import { Button } from "@/components/ui/Button/button";
 import { Input } from "@/components/ui/Input/input";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Router, { useRouter } from "next/router";
 import Head from "next/head";
 import { canSSRAuth } from "@/utils/canSSRAuth";
 import { CargoData } from "@/interfaces/CargoData";
 import { FuncionarioData } from "@/interfaces/FuncionarioData";
 import { useFuncionarioDataMutatePost, useFuncionarioDataMutatePut } from "@/hooks/funcionario/useFuncionarioDataMutate";
-import { AuthContext, AuthProvider } from "@/contexts/AuthContext";
-import { setupAPIClient } from "@/services/api";
-import { useFuncionarioData } from "@/hooks/funcionario/useFuncionarioData";
 import { toast } from "react-toastify";
 import { categoriaEnum } from "@/enums/categoriaEnum";
+import { AdicionaisData } from "@/interfaces/AdicionaisData";
+import { BeneficiosData } from "@/interfaces/BeneficiosData";
+import { HorasData } from "@/interfaces/HorasData";
+import { DescontosData } from "@/interfaces/DescontosData";
+import { FolhaDePagamentoData } from "@/interfaces/FolhaDePagamentoData";
+import { FuncionarioContext } from "@/contexts/FuncionarioContext";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -24,12 +27,12 @@ interface TabPanelProps {
   value: number;
 }
 
-interface FuncionarioDependencias {
-  beneficios: CargoData,
-  adicionais: CargoData,
-  horas: CargoData,
-  desconto: CargoData,
-  folhaPagamento: CargoData
+interface FolhaPagamentoDependencias {
+  beneficios: BeneficiosData | null,
+  adicionais: AdicionaisData | null,
+  horas: HorasData | null,
+  descontos: DescontosData | null,
+  folhaPagamento: FolhaDePagamentoData | null
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -62,49 +65,35 @@ function FuncionarioTabs({ value, handleChange }: { value: number; handleChange:
   );
 }
 export default function Funcionario() {
-  const router = useRouter();
-  const { funcionarioJSON } = router.query;
+  const { funcionarioData, cargosList } = useContext(FuncionarioContext);
 
-  const funcionario :FuncionarioData | null = funcionarioJSON ? JSON.parse(funcionarioJSON as string) : null;
-  let folhaPagamento = null;
+  console.log(funcionarioData);
 
-  //let dependencias :FuncionarioDependencias = null;
-
- 
-
-  async function CarregaDependencias(){
-    const apiClient = setupAPIClient();
-
-    const responseFolhaPagamento = await apiClient.get('/FolhaPagamento', { params: { idfuncionario: funcionario?.idfuncionario } });
-    folhaPagamento = responseFolhaPagamento.data;
-    
-    const responseCargo = await apiClient.get('/Cargo', { params: { idcargo: funcionario?.idcargo } })
-    const responseBeneficios = await apiClient.get('/Beneficios');
-    const responseAdicionais = await apiClient.get('/Adicionais'); 
-    const responseHoras = await apiClient.get('/Horas');
-    const responseDescontos = await apiClient.get('/Descontos');
-    
-    
-    // if(dependencias){
-    //   dependencias.cargos = responseCargo.data;
-    //   dependencias.
-    // }
-    
-  }
-
+  const funcionario = funcionarioData?.funcionario;
   
+  const [cargos, setCargos] = useState<CargoData[]>(cargosList);
+  const [beneficios, setBeneficios] = useState<BeneficiosData | undefined>(funcionarioData?.beneficios ? funcionarioData.beneficios : undefined);
+  const [adicionais, setAdicionais] = useState<AdicionaisData | undefined >(funcionarioData?.adicionais ? funcionarioData.adicionais : undefined);
+  const [horas, setHoras] = useState<HorasData | undefined>(funcionarioData?.horas ? funcionarioData.horas : undefined);
+  const [descontos, setDescontos] = useState<DescontosData | undefined>(funcionarioData?.descontos ? funcionarioData.descontos : undefined);
+  const [folhaPagamento, setFolhaPagamento] = useState<FolhaDePagamentoData | undefined>(funcionarioData?.folhaPagamento ? funcionarioData.folhaPagamento : undefined);
 
+  const cargosOptions = cargos?.map(cargo => ({
+    id: cargo.idcargo,
+    name: cargo.nome
+  })) || [];
+  
   const [nome, setNome] = useState(funcionario?.nome ? funcionario.nome : '');
-  const [cargo, setCargo] = useState(funcionario?.idcargo ? dependencias.cargos.find(x => x.id == funcionario.idcargo)?.name : '');
+  const [cargo, setCargo] = useState(funcionario?.idcargo ? cargosOptions.find(x => x.id == funcionario.idcargo)?.name : '');
   const [categoria, setCategoria] = useState(funcionario?.categoria ? categoriaEnum.find(x => x.id == funcionario.categoria)?.name : '');
   const [dataadmissao, setDataAdimissao] = useState(funcionario?.dataadmissao ? funcionario.dataadmissao.toString().split('T')[0] : new Date().toISOString().split('T')[0]);
 
-  const [salarioBase, setSalarioBase] = useState('');
+  const [salarioBase, setSalarioBase] = useState(cargos.find(x => x.idcargo == funcionario?.idcargo)?.salariobase ?? '');
   const [salario, setSalario] = useState('');
   const [salarioBruto, setSalarioBruto] = useState('');
   const [salarioLiquido, setSalarioLiquido] = useState('');
 
-  const [totalHorasTrabalhadas, setTotalHorasTrabalhadas] = useState('');
+  const [totalHorasTrabalhadas, setTotalHorasTrabalhadas] = useState(funcionarioData?.horas?.horastrabalhadas ?? '');
   const [totalHorasAusentes, setTotalHorasAusentes] = useState('');
   const [totalHorasExtras, setTotalHorasExtras] = useState('');
 
@@ -129,21 +118,19 @@ export default function Funcionario() {
   const [irrf, setIRRF] = useState('');
   const [valorHorasAusentes, setValorHorasAusentes] = useState('');
 
-
   const { mutate, isSuccess } = funcionario ? useFuncionarioDataMutatePut() : useFuncionarioDataMutatePost();
 
   const submit = () => {
     const funcionarioData: FuncionarioData = {
       idfuncionario: funcionario?.idfuncionario ? funcionario.idfuncionario : '',
       nome,
-      idcargo: cargosOptions.find(x => x.name == cargo)?.id,
+      idcargo: cargos.find(x => x.nome == cargo)?.idcargo,
       categoria: categoriaEnum.find(x => x.name == categoria)?.id,
       dataadmissao: new Date(dataadmissao),
       idusuariocadastro: 'a1d4603e-16b5-4850-a27d-fd89382e0157'
     }
 
     const funcionarioNovo = funcionarioData.idfuncionario == '';
-    console.log(funcionarioData);
 
     mutate(funcionarioData);
 
@@ -160,7 +147,7 @@ export default function Funcionario() {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
+  
   return (
     <>
       <Head>
@@ -185,7 +172,7 @@ export default function Funcionario() {
             <h1>Salario</h1>
             <Input placeholder='Salario Base' disabled type='number' value={salarioBase} onChange={(e) => setSalarioBase(e.target.value)} />
             <Input placeholder='Salario' type='number' value={salario} onChange={(e) => setSalario(e.target.value)} />
-            <Input placeholder='Salario Bruto' disabled type='number' value={salarioBruto}  onChange={(e) => setSalarioBruto(e.target.value)} />
+            <Input placeholder='Salario Bruto' disabled type='number' value={salarioBruto} onChange={(e) => setSalarioBruto(e.target.value)} />
             <Input placeholder='Salario Liquido' disabled type='number' value={salarioLiquido} onChange={(e) => setSalarioLiquido(e.target.value)} />
           </div>
 
@@ -239,22 +226,8 @@ export default function Funcionario() {
 }
 
 export const getServerSideProps = canSSRAuth(async (context) => {
-  
 
- 
-  
   return {
-    props: {
-      // cargoList: responseCargo.data,
-      // funcionarioList: responseFuncionario.data,
-      // beneficiosList: responseBeneficios.data,
-      // adicionaisList: responseAdicionais.data,
-      // horasList: responseHoras.data,
-      // descontosList: responseDescontos.data,
-      // folhaPagamentoList: responseFolhaPagamentos.data
-    }
+    props: {}
   }
 })
-
-
-

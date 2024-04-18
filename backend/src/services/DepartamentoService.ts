@@ -13,10 +13,7 @@ class DepartamentoService {
                     descricao: true
                 }
             });
-
-        if (!departamento)
-            throw new Error("Departamento não encontrado.");
-
+            
         return departamento;
     }
 

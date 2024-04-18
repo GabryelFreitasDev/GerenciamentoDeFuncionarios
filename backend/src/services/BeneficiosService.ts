@@ -20,9 +20,6 @@ class BeneficiosService {
                 }
             });
 
-        if (!beneficios)
-            throw new Error("Beneficios não encontrado.");
-
         return beneficios;
     }
 
