@@ -70,10 +70,10 @@ export default function Funcionario() {
   console.log(funcionarioData);
 
   const funcionario = funcionarioData?.funcionario;
-  
+
   const [cargos, setCargos] = useState<CargoData[]>(cargosList);
   const [beneficios, setBeneficios] = useState<BeneficiosData | undefined>(funcionarioData?.beneficios ? funcionarioData.beneficios : undefined);
-  const [adicionais, setAdicionais] = useState<AdicionaisData | undefined >(funcionarioData?.adicionais ? funcionarioData.adicionais : undefined);
+  const [adicionais, setAdicionais] = useState<AdicionaisData | undefined>(funcionarioData?.adicionais ? funcionarioData.adicionais : undefined);
   const [horas, setHoras] = useState<HorasData | undefined>(funcionarioData?.horas ? funcionarioData.horas : undefined);
   const [descontos, setDescontos] = useState<DescontosData | undefined>(funcionarioData?.descontos ? funcionarioData.descontos : undefined);
   const [folhaPagamento, setFolhaPagamento] = useState<FolhaDePagamentoData | undefined>(funcionarioData?.folhaPagamento ? funcionarioData.folhaPagamento : undefined);
@@ -82,41 +82,41 @@ export default function Funcionario() {
     id: cargo.idcargo,
     name: cargo.nome
   })) || [];
-  
+
   const [nome, setNome] = useState(funcionario?.nome ? funcionario.nome : '');
   const [cargo, setCargo] = useState(funcionario?.idcargo ? cargosOptions.find(x => x.id == funcionario.idcargo)?.name : '');
   const [categoria, setCategoria] = useState(funcionario?.categoria ? categoriaEnum.find(x => x.id == funcionario.categoria)?.name : '');
   const [dataadmissao, setDataAdimissao] = useState(funcionario?.dataadmissao ? funcionario.dataadmissao.toString().split('T')[0] : new Date().toISOString().split('T')[0]);
 
   const [salarioBase, setSalarioBase] = useState(cargos.find(x => x.idcargo == funcionario?.idcargo)?.salariobase ?? '');
-  const [salario, setSalario] = useState('');
+  //const [salario, setSalario] = useState('');
   const [salarioBruto, setSalarioBruto] = useState('');
   const [salarioLiquido, setSalarioLiquido] = useState('');
 
   const [totalHorasTrabalhadas, setTotalHorasTrabalhadas] = useState(funcionarioData?.horas?.horastrabalhadas ?? '');
-  const [totalHorasAusentes, setTotalHorasAusentes] = useState('');
-  const [totalHorasExtras, setTotalHorasExtras] = useState('');
+  const [totalHorasAusentes, setTotalHorasAusentes] = useState(funcionarioData?.horas?.horasausentes ?? '')
+  const [totalHorasExtras, setTotalHorasExtras] = useState(funcionarioData?.adicionais?.valorhorasextras ?? '');
 
-  const [valeTransporte, setValeTransporte] = useState('');
-  const [valeAlimentacao, setValeAlimentacao] = useState('');
-  const [salarioFamilia, setSalarioFamilia] = useState('');
-  const [auxilioCreche, setAuxilioCreche] = useState('');
-  const [diariaParaViagens, setDiariaParaViagens] = useState('');
-  const [descancoRemunerado, setDescancoRemunerado] = useState('');
+  const [valeTransporte, setValeTransporte] = useState(funcionarioData?.beneficios?.valetransporte ?? '');
+  const [valeAlimentacao, setValeAlimentacao] = useState(funcionarioData?.beneficios?.valealimentacao ?? '');
+  const [salarioFamilia, setSalarioFamilia] = useState(funcionarioData?.beneficios?.salariofamilia ?? '');
+  const [auxilioCreche, setAuxilioCreche] = useState(funcionarioData?.beneficios?.auxiliocreche ?? '');
+  const [diariaParaViagens, setDiariaParaViagens] = useState(funcionarioData?.beneficios?.diariasparaviagens ?? '');
+  const [descancoRemunerado, setDescancoRemunerado] = useState(funcionarioData?.beneficios?.descansoremunerado ?? '');
 
-  const [periculosidade, setPericulosidade] = useState('');
-  const [noturno, setNoturno] = useState('');
-  const [insalubridade, setInsalubridade] = useState('');
-  const [tempoDeServico, setTempoDeServico] = useState('');
-  const [valorHorasExtras, setValorHorasExtras] = useState('');
-  const [adiantamento, setAdiantamento] = useState('');
-  const [percentualComissao, setPercentualComissao] = useState('');
-  const [comissao, setComissao] = useState('');
+  const [periculosidade, setPericulosidade] = useState(funcionarioData?.adicionais?.periculosidade ?? '');
+  const [noturno, setNoturno] = useState(funcionarioData?.adicionais?.noturno ?? '');
+  const [insalubridade, setInsalubridade] = useState(funcionarioData?.adicionais?.insalubridade ?? '');
+  const [tempoDeServico, setTempoDeServico] = useState(funcionarioData?.adicionais?.tempodeservico ?? '');
+  const [valorHorasExtras, setValorHorasExtras] = useState(funcionarioData?.adicionais?.valorhorasextras ?? '');
+  const [adiantamento, setAdiantamento] = useState(funcionarioData?.adicionais?.adiantamento ?? '');
+  const [percentualComissao, setPercentualComissao] = useState(funcionarioData?.adicionais?.percentualcomissao ?? '');
+  const [comissao, setComissao] = useState(funcionarioData?.adicionais?.comissao ?? '');
 
-  const [inss, setINSS] = useState('');
-  const [fgts, setFGTS] = useState('');
-  const [irrf, setIRRF] = useState('');
-  const [valorHorasAusentes, setValorHorasAusentes] = useState('');
+  const [inss, setINSS] = useState(funcionarioData?.descontos?.inss ?? '');
+  const [fgts, setFGTS] = useState(funcionarioData?.descontos?.fgts ?? '');
+  const [irrf, setIRRF] = useState(funcionarioData?.descontos?.irrf ?? '');
+  const [valorHorasAusentes, setValorHorasAusentes] = useState(funcionarioData?.descontos?.valorhorasausentes ?? '');
 
   const { mutate, isSuccess } = funcionario ? useFuncionarioDataMutatePut() : useFuncionarioDataMutatePost();
 
@@ -147,7 +147,7 @@ export default function Funcionario() {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  
+
   return (
     <>
       <Head>
