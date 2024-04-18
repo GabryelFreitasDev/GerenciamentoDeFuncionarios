@@ -57,6 +57,38 @@ class CargoService {
 
         return cargo;
     }
+
+    async Put({ idcargo, iddepartamento, nome, salariobase }: CargoDTO) {
+
+        const cargo = await prismaClient.cargo.update({
+            data: {
+                iddepartamento: iddepartamento,
+                nome: nome,
+                salariobase: salariobase
+            },
+            select: {
+                idcargo: true,
+                iddepartamento: true,
+                nome: true,
+                salariobase: true
+            },
+            where: { idcargo: idcargo }
+        })
+        return cargo;
+    }
+
+    async Delete(idCargo: string) {
+        const cargo = await prismaClient.cargo.delete({
+            select: {
+                idcargo: true,
+                iddepartamento: true,
+                nome: true,
+                salariobase: true
+            },
+            where: { idcargo: idCargo }
+        })
+        return cargo;
+    }
 }
 
 export { CargoService }

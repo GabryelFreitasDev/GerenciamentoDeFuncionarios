@@ -39,6 +39,36 @@ class HorasTrabalhadasService {
 
         return horasTrabalhadas;
     }
+
+    async Put({ idhorastrabalhadas, horasausentes, horasextras, horastrabalhadas }: HorasTrabalhadasDTO) {
+
+        const horasTrabalhadas = await prismaClient.horasTrabalhadas.update({
+            data: {
+                horasausentes: horasausentes,
+                horasextras: horasextras,
+                horastrabalhadas: horastrabalhadas
+            },
+            select: {
+                idhorastrabalhadas: true,
+                horasextras: true,
+                horastrabalhadas: true
+            },
+            where: { idhorastrabalhadas: idhorastrabalhadas }
+        })
+        return horasTrabalhadas;
+    }
+
+    async Delete(idHorasTrabalhadas: string) {
+        const horasTrabalhadas = await prismaClient.horasTrabalhadas.delete({
+            select: {
+                idhorastrabalhadas: true,
+                horasextras: true,
+                horastrabalhadas: true
+            },
+            where: { idhorastrabalhadas: idHorasTrabalhadas }
+        })
+        return horasTrabalhadas;
+    }
 }
 
 export { HorasTrabalhadasService }

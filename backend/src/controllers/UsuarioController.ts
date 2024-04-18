@@ -36,6 +36,29 @@ class UsuarioController {
 
         return res.json(usuario);
     }
+
+    async Put(req: Request, res: Response) {
+        
+        const usuarioDTO: UsuarioDTO  = req.body;
+        
+        const cadastrarUsuarioService = new UsuarioService();
+
+        const usuario = await cadastrarUsuarioService.Put(usuarioDTO);
+
+        return res.json(usuario);
+    }
+
+    async Delete(req: Request, res: Response) {
+        
+        const idusuario = req.query.idusuario?.toString() ?? '';
+        
+        const cadastrarUsuarioService = new UsuarioService();
+
+        const usuario = await cadastrarUsuarioService.Delete(idusuario);
+
+        return res.json(usuario);
+    }
+    
 }
 
 export { UsuarioController }

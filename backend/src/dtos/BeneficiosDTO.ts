@@ -1,4 +1,5 @@
 interface BeneficiosDTO {
+    idbeneficio: string,
     valetransporte: number,
     valealimentacao: number,
     salariofamilia: number,

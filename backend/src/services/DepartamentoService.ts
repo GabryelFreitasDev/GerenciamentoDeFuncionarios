@@ -13,7 +13,7 @@ class DepartamentoService {
                     descricao: true
                 }
             });
-            
+
         return departamento;
     }
 
@@ -33,6 +33,32 @@ class DepartamentoService {
             }
         })
 
+        return departamento;
+    }
+
+    async Put({ iddepartamento, descricao }: DepartamentoDTO) {
+
+        const departamento = await prismaClient.departamento.update({
+            data: {
+                descricao: descricao
+            },
+            select: {
+                iddepartamento: true,
+                descricao: true
+            },
+            where: { iddepartamento: iddepartamento }
+        })
+        return departamento;
+    }
+
+    async Delete(idDepartamento: string) {
+        const departamento = await prismaClient.departamento.delete({
+            select: {
+                iddepartamento: true,
+                descricao: true
+            },
+            where: { iddepartamento: idDepartamento }
+        })
         return departamento;
     }
 }

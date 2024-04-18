@@ -48,6 +48,48 @@ class BeneficiosService {
 
         return beneficios;
     }
+
+    async Put({ idbeneficio, auxiliocreche, descansoremunerado, diariasparaviagens, salariofamilia, valealimentacao, valetransporte }: BeneficiosDTO) {
+
+        const beneficios = await prismaClient.beneficios.update({
+            data: {
+                auxiliocreche: auxiliocreche,
+                descansoremunerado: descansoremunerado,
+                diariasparaviagens: diariasparaviagens,
+                salariofamilia: salariofamilia,
+                valealimentacao: valealimentacao,
+                valetransporte: valetransporte
+            },
+            select: {
+                idbeneficio: true,
+                auxiliocreche: true,
+                descansoremunerado: true,
+                diariasparaviagens: true,
+                salariofamilia: true,
+                valealimentacao: true,
+                valetransporte: true
+            },
+            where: { idbeneficio: idbeneficio }
+        })
+        return beneficios;
+    }
+
+    async Delete(idBeneficio: string) {
+        const beneficios = await prismaClient.beneficios.delete({
+            select: {
+                idbeneficio: true,
+                auxiliocreche: true,
+                descansoremunerado: true,
+                diariasparaviagens: true,
+                folhapagamento: true,
+                salariofamilia: true,
+                valealimentacao: true,
+                valetransporte: true  
+            },
+            where: { idbeneficio: idBeneficio }
+        })
+        return beneficios;
+    }
     
 }
 

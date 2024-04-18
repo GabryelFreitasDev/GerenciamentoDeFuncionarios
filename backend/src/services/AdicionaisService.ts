@@ -53,6 +53,52 @@ class AdicionaisService {
 
         return adicionais;
     }
+
+    async Put({ idadicional, adiantamento, comissao, insalubridade, noturno, percentualcomissao, periculosidade, valorhorasextras }: AdicionaisDTO) {
+
+        const adicionais = await prismaClient.adicionais.update({
+            data: {
+                adiantamento: adiantamento,
+                comissao: comissao,
+                insalubridade: insalubridade,
+                noturno: noturno,
+                percentualcomissao: percentualcomissao,
+                periculosidade: periculosidade,
+                valorhorasextras: valorhorasextras
+            },
+            select: {
+                idadicional: true,
+                adiantamento: true,
+                comissao: true,
+                insalubridade: true,
+                noturno: true,
+                percentualcomissao: true,
+                periculosidade: true,
+                valorhorasextras: true
+            },
+            where: { idadicional: idadicional }
+        })
+        return adicionais;
+    }
+
+    async Delete(idAdicional: string) {
+        const adicionais = await prismaClient.adicionais.delete({
+            select: {
+                idadicional: true,
+                adiantamento: true,
+                comissao: true,
+                folhapagamento: true,
+                insalubridade: true,
+                noturno: true,
+                percentualcomissao: true,
+                periculosidade: true,
+                tempodeservico: true,
+                valorhorasextras: true
+            },
+            where: { idadicional: idAdicional }
+        })
+        return adicionais;
+    }
 }
 
 export { AdicionaisService }

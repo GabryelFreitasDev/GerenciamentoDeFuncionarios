@@ -1,4 +1,5 @@
 interface UsuarioDTO {
+    idusuario?: string,
     nome: string,
     login: string,
     email: string,

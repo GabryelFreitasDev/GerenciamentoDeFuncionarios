@@ -35,6 +35,38 @@ class EmpresaService {
 
         return empresa;
     }
+
+    async Put({ idempresa, cnpj, endereco, nome }: EmpresaDTO) {
+
+        const empresa = await prismaClient.empresa.update({
+            data: {
+                cnpj: cnpj,
+                endereco: endereco,
+                nome: nome
+            },
+            select: {
+                idempresa: true,
+                cnpj: true,
+                endereco: true,
+                nome: true
+            },
+            where: { idempresa: idempresa }
+        })
+        return empresa;
+    }
+
+    async Delete(idEmpresa: string) {
+        const empresa = await prismaClient.empresa.delete({
+            select: {
+                idempresa: true,
+                cnpj: true,
+                endereco: true,
+                nome: true
+            },
+            where: { idempresa: idEmpresa }
+        })
+        return empresa;
+    }
 }
 
 export { EmpresaService }

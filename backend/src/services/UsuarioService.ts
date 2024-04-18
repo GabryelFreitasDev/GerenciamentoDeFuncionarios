@@ -72,6 +72,44 @@ class UsuarioService {
 
         return usuario;
     }
+
+    async Put({ idusuario, nome, login, senha, email, idempresa }: UsuarioDTO) {
+
+        const usuario = await prismaClient.usuario.update({
+            data: {
+                nome: nome,
+                login: login,
+                senha: senha,
+                email: email,
+                idempresa: idempresa
+            },
+            select: {
+                idusuario: true,
+                nome: true,
+                login: true,
+                senha: true,
+                email: true,
+                idempresa: true
+            },
+            where: { idusuario: idusuario }
+        })
+        return usuario;
+    }
+
+    async Delete(idUsuario: string) {
+        const usuario = await prismaClient.usuario.delete({
+            select: {
+                idusuario: true,
+                nome: true,
+                login: true,
+                senha: true,
+                email: true,
+                idempresa: true
+            },
+            where: { idusuario: idUsuario }
+        })
+        return usuario;
+    }
 }
 
 export { UsuarioService }

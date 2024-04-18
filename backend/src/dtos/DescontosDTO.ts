@@ -1,4 +1,5 @@
 interface DescontosDTO {
+    iddesconto: string,
     inss: number,
     fgts: number,
     irrf: number,

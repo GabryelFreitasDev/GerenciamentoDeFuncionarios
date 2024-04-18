@@ -28,6 +28,28 @@ class CargoController {
 
         return res.json(cargo);
     }
+
+    async Put(req: Request, res: Response) {
+        
+        const cargoDTO: CargoDTO  = req.body;
+        
+        const cadastrarCargoService = new CargoService();
+
+        const cargo = await cadastrarCargoService.Put(cargoDTO);
+
+        return res.json(cargo);
+    }
+
+    async Delete(req: Request, res: Response) {
+        
+        const idcargo = req.query.idcargo?.toString() ?? '';
+        
+        const cadastrarCargoService = new CargoService();
+
+        const cargo = await cadastrarCargoService.Delete(idcargo);
+
+        return res.json(cargo);
+    }
 }
 
 export { CargoController }

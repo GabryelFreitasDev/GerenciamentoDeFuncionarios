@@ -1,4 +1,5 @@
 interface AdicionaisDTO {
+    idadicional: string,
     periculosidade: number,
     noturno: number,
     insalubridade: number,

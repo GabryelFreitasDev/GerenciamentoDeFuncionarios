@@ -1,4 +1,5 @@
 interface DepartamentoDTO {
+    iddepartamento: string,
     descricao: string;
 }
 

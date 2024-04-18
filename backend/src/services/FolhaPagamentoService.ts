@@ -62,6 +62,42 @@ class FolhaPagamentoService {
 
         return folhapagamento;
     }
+
+    async Put({ idfolhapagamento, idadicionais, idbeneficios, iddescontos, idfuncionario, idhorastrabalhadas }: FolhaPagamentoDTO) {
+
+        const folhaPagamento = await prismaClient.folhaPagamento.update({
+            data: {
+                idadicionais: idadicionais,
+                idbeneficios: idbeneficios,
+                iddescontos: iddescontos,
+                idfuncionario: idfuncionario,
+                idhorastrabalhadas: idhorastrabalhadas
+            },
+            select: {
+                idfolhapagamento: true,
+                idbeneficios: true,
+                iddescontos: true,
+                idfuncionario: true,
+                idhorastrabalhadas: true
+            },
+            where: { idfolhapagamento: idfolhapagamento }
+        })
+        return folhaPagamento;
+    }
+
+    async Delete(idFolhaPagamento: string) {
+        const folhaPagamento = await prismaClient.folhaPagamento.delete({
+            select: {
+                idfolhapagamento: true,
+                idbeneficios: true,
+                iddescontos: true,
+                idfuncionario: true,
+                idhorastrabalhadas: true
+            },
+            where: { idfolhapagamento: idFolhaPagamento }
+        })
+        return folhaPagamento;
+    }
 }
 
 export { FolhaPagamentoService }
