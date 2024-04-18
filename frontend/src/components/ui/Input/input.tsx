@@ -17,11 +17,13 @@ interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 export function Input({ label, ...rest }: InputProps) {
     return (
         <>
-            <label>{label}</label>
-            <input className={styles.input} {...rest} />
+            <div className={styles.input}>
+                <label>{label}</label>
+                <input {...rest} />
+            </div>
         </>
     );
-}   
+}
 
 export function TextArea({ ...rest }: TextAreaProps) {
     return (
