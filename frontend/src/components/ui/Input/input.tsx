@@ -8,15 +8,18 @@ interface AuxProps {
 }
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-    AuxProps?: AuxProps;
+    label?: string | undefined;
 }
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
     AuxProps?: AuxProps;
 }
 
-export function Input({ ...rest }: InputProps) {
+export function Input({ label, ...rest }: InputProps) {
     return (
-        <input className={styles.input} {...rest} />
+        <>
+            <label>{label}</label>
+            <input className={styles.input} {...rest} />
+        </>
     );
 }   
 

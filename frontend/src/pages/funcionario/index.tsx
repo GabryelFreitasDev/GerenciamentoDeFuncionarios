@@ -20,6 +20,7 @@ import { HorasData } from "@/interfaces/HorasData";
 import { DescontosData } from "@/interfaces/DescontosData";
 import { FolhaDePagamentoData } from "@/interfaces/FolhaDePagamentoData";
 import { FuncionarioContext } from "@/contexts/FuncionarioContext";
+import { Calculos } from "@/a/CalculosFolhaPagamento";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -88,8 +89,8 @@ export default function Funcionario() {
   const [categoria, setCategoria] = useState(funcionario?.categoria ? categoriaEnum.find(x => x.id == funcionario.categoria)?.name : '');
   const [dataadmissao, setDataAdimissao] = useState(funcionario?.dataadmissao ? funcionario.dataadmissao.toString().split('T')[0] : new Date().toISOString().split('T')[0]);
 
-  const [salarioBase, setSalarioBase] = useState(cargos.find(x => x.idcargo == funcionario?.idcargo)?.salariobase ?? '');
-  const [salario, setSalario] = useState('');
+  const [salarioBase, setSalarioBase] = useState(cargos.find(x => x.idcargo == funcionario?.idcargo)?.salariobase ?? 0);
+  //const [salario, setSalario] = useState(0);
   const [salarioBruto, setSalarioBruto] = useState('');
   const [salarioLiquido, setSalarioLiquido] = useState('');
 
@@ -117,6 +118,21 @@ export default function Funcionario() {
   const [fgts, setFGTS] = useState('');
   const [irrf, setIRRF] = useState('');
   const [valorHorasAusentes, setValorHorasAusentes] = useState('');
+
+  function CalculaFolha(salario: number){
+    setINSS(Calculos.CalculaINSS(salario));
+    setFGTS(Calculos.CalculaFGTS(salario));
+    setIRRF(Calculos.CalculaIRRF(salario));
+
+    const totalDescontos = parseFloat(inss) + parseFloat(fgts) + parseFloat(irrf);
+    const salarioLiquido = (salario - totalDescontos).toFixed(2).toString();
+    
+    setSalarioLiquido(salarioLiquido);
+  }
+
+  useEffect(() => {
+    CalculaFolha(salarioBase);
+  }, [salarioBase])
 
   const { mutate, isSuccess } = funcionario ? useFuncionarioDataMutatePut() : useFuncionarioDataMutatePost();
 
@@ -162,16 +178,15 @@ export default function Funcionario() {
 
         <TabPanel value={value} index={0}>
           <div className={styles.containerCenter}>
-            <Input placeholder='Nome' type='text' value={nome} onChange={(e) => setNome(e.target.value)} />
-            <Select options={cargosOptions} value={cargo} updateValue={setCargo}></Select>
-            <Select options={categoriaEnum} value={categoria} updateValue={setCategoria}></Select>
+            <Input label='Nome:' placeholder='Nome' type='text' value={nome} onChange={(e) => setNome(e.target.value)} />
+            <Select label='Cargo:' options={cargosOptions} value={cargo} updateValue={setCargo}></Select>
+            <Select label='Categoria:' options={categoriaEnum} value={categoria} updateValue={setCategoria}></Select>
             <Input placeholder='Data de admissão' type='date' value={dataadmissao} onChange={(e) => setDataAdimissao(e.target.value)} />
           </div>
 
           <div>
             <h1>Salario</h1>
-            <Input placeholder='Salario Base' disabled type='number' value={salarioBase} onChange={(e) => setSalarioBase(e.target.value)} />
-            <Input placeholder='Salario' type='number' value={salario} onChange={(e) => setSalario(e.target.value)} />
+            <Input placeholder='Salario Base' type='number' value={salarioBase} onChange={(e) => setSalarioBase(parseFloat(e.target.value))} />
             <Input placeholder='Salario Bruto' disabled type='number' value={salarioBruto} onChange={(e) => setSalarioBruto(e.target.value)} />
             <Input placeholder='Salario Liquido' disabled type='number' value={salarioLiquido} onChange={(e) => setSalarioLiquido(e.target.value)} />
           </div>
@@ -181,6 +196,14 @@ export default function Funcionario() {
             <Input placeholder='Total Horas Trabalhadas' disabled type='text' value={totalHorasTrabalhadas} onChange={(e) => setTotalHorasTrabalhadas(e.target.value)} />
             <Input placeholder='Horas Ausentes' disabled type='text' value={totalHorasAusentes} onChange={(e) => setTotalHorasAusentes(e.target.value)} />
             <Input placeholder='Horas Extras' disabled type='text' value={totalHorasExtras} onChange={(e) => setTotalHorasExtras(e.target.value)} />
+          </div>
+
+          <div>
+            <h1>Descontos</h1>
+            <Input placeholder='INSS' disabled type='text' value={inss} onChange={(e) => setINSS(e.target.value)} />
+            <Input placeholder='FGTS' disabled type='text' value={fgts} onChange={(e) => setFGTS(e.target.value)} />
+            <Input placeholder='IRRF' disabled type='text' value={irrf} onChange={(e) => setIRRF(e.target.value)} />
+            <Input placeholder='Valor horas ausentes' disabled type='text' value={valorHorasAusentes} onChange={(e) => setValorHorasAusentes(e.target.value)} />
           </div>
 
           <div>
@@ -205,13 +228,7 @@ export default function Funcionario() {
             <Input placeholder='Comissão' disabled type='text' value={comissao} onChange={(e) => setComissao(e.target.value)} />
           </div>
 
-          <div>
-            <h1>Descontos</h1>
-            <Input placeholder='INSS' disabled type='text' value={inss} onChange={(e) => setINSS(e.target.value)} />
-            <Input placeholder='FGTS' disabled type='text' value={fgts} onChange={(e) => setFGTS(e.target.value)} />
-            <Input placeholder='IRRF' disabled type='text' value={irrf} onChange={(e) => setIRRF(e.target.value)} />
-            <Input placeholder='Valor horas ausentes' disabled type='text' value={valorHorasAusentes} onChange={(e) => setValorHorasAusentes(e.target.value)} />
-          </div>
+          
 
         </TabPanel>
         <TabPanel value={value} index={1}>
