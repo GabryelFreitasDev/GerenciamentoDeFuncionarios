@@ -8,20 +8,28 @@ import { AuthContext } from '@/contexts/AuthContext';
 import { toast } from 'react-toastify';
 import Head from 'next/head';
 import { canSSRGuest } from '@/utils/canSSRGuest';
+import { Select } from '@/components/ui/Select/select';
+import { setupAPIClient } from '@/services/api';
+import { EmpresaData } from '@/interfaces/EmpresaData';
 
 export const metadata: Metadata = {
   title: "Cadastro"
 };
 
-export default function Cadastro() {
+interface CadastroProps {
+  empresaList: EmpresaData[]
+}
+
+
+export default function Cadastro({ empresaList }: CadastroProps) {
   const { signUp } = useContext(AuthContext);
 
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [login, setLogin] = useState('');
   const [senha, setSenha] = useState('');
-
   const [loading, setLoading] = useState(false);
+  const [empresa, setEmpresa] = useState('');
 
   async function handleCadastrar(event: FormEvent) {
     try {
@@ -31,7 +39,7 @@ export default function Cadastro() {
         toast.info("Preencha todos os campos!")
         return;
       }
-      const data = { nome: nome, email: email, login: login, senha: senha, idempresa: 'id_da_empresa'}
+      const data = { nome: nome, email: email, login: login, senha: senha, idempresa: empresa }
 
       setLoading(true);
 
@@ -45,6 +53,11 @@ export default function Cadastro() {
     }
 
   }
+
+  const empresaOptions = empresaList?.map(empresa => ({
+    id: empresa.idempresa,
+    name: empresa.nome
+  })) || [];
 
   return (
     <>
@@ -61,7 +74,10 @@ export default function Cadastro() {
             <Input placeholder='E-mail' type='text' value={email} onChange={(e) => setEmail(e.target.value)} />
             <Input placeholder='Login' type='text' value={login} onChange={(e) => setLogin(e.target.value)} />
             <Input placeholder='Senha' type='password' value={senha} onChange={(e) => setSenha(e.target.value)} />
-            <Button type='submit' loading={loading} >Cadastar</Button>
+
+            <Select label={''} options={empresaOptions} value={empresa} updateValue={setEmpresa}></Select>
+
+            <Button color='green' type='submit' loading={loading} >Cadastar</Button>
             <Link className={styles.link} href="/"> Já possui uma conta? Faça login!</Link>
           </form>
         </div>
@@ -72,7 +88,12 @@ export default function Cadastro() {
 }
 
 export const getServerSideProps = canSSRGuest(async (context) => {
+  const apiClient = setupAPIClient();
+  const responseEmpresa = await apiClient.get('/Empresas')
+
   return {
-    props: {}
+    props: {
+      empresaList: responseEmpresa.data,
+    }
   }
 }) 

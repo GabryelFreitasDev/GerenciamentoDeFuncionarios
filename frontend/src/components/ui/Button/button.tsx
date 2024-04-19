@@ -5,7 +5,7 @@ import { FaSpinner } from 'react-icons/fa'
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     loading?: boolean;
     children: ReactNode;
-    color: string;
+    color?: string;
     positionedRight?: boolean;
 }
 

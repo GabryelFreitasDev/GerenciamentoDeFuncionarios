@@ -11,7 +11,6 @@ export function Header() {
         <header className={styles.headerContainer}>
             <div className={styles.headerContent}>
                 <h1>Folha de Pagamento</h1>
-
                 <nav>
                     <button onClick={signOut}><FiLogOut color="FFF" size='30'/></button>
                 </nav>

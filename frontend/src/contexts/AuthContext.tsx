@@ -93,7 +93,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 email,
                 login,
                 senha,
-                idempresa: 'id_da_empresa'
+                idempresa
             })
 
             toast.success('Usuário cadastrado com sucesso!');

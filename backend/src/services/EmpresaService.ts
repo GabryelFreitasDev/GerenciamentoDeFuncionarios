@@ -13,6 +13,23 @@ class EmpresaService {
         return empresa;
     }
 
+    async GetAll() {
+        const empresa = await prismaClient.empresa.findMany(
+            {
+                select: {
+                    idempresa: true,
+                    nome: true,
+                    cnpj: true,
+                    endereco: true
+                }
+            });
+
+        if (!empresa)
+            throw new Error("Empresas não encontradas.");
+
+        return empresa;
+    }
+
     async Post({ nome, cnpj, endereco }: EmpresaDTO) {
 
         const empresaJaExite = await prismaClient.empresa.findFirst({ where: { nome: nome } })

@@ -12,6 +12,14 @@ class EmpresaController {
         return res.json(empresa);
     }
 
+    async GetAll(req: Request, res: Response){
+        const getEmpresaService = new EmpresaService();
+
+        const empresas = await getEmpresaService.GetAll();
+
+        return res.json(empresas);
+    }
+
     async Post(req: Request, res: Response) {
         const empresaDTO: EmpresaDTO  = req.body;
         const cadastrarEmpresaService = new EmpresaService();

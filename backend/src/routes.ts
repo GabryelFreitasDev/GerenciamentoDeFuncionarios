@@ -14,6 +14,7 @@ const router = Router();
 
 //get
 router.get('/Empresa', new EmpresaController().Get);
+router.get('/Empresas', new EmpresaController().GetAll);
 //post
 router.post('/Empresa', new EmpresaController().Post);
 //put
